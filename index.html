@@ -533,6 +533,53 @@ body::after{
   padding-bottom:calc(var(--notice-h) + 8px) !important;
 }
 
+
+/* request patch: header bigger and bottom gap reduced */
+
+/* 파란색 표시 부분: 상단 로고/글씨만 키움 */
+.header-logo{
+  width:calc(var(--logo, 22px) * 1.18) !important;
+  height:calc(var(--logo, 22px) * 1.18) !important;
+  flex:0 0 calc(var(--logo, 22px) * 1.18) !important;
+  margin-right:calc(var(--logo-gap, 8px) + 2px) !important;
+}
+
+.title{
+  font-size:calc(var(--title-f, 13px) * 1.13) !important;
+  font-weight:600 !important;
+  letter-spacing:-0.8px !important;
+}
+
+/* 메뉴는 기존 위치 유지 */
+.menu{
+  font-size:calc(var(--menu-f, 22px) * 1.02) !important;
+}
+
+/* 빨간색 표시 부분: 캡처바 아래 빈 공간을 줄이기 위해 safe-area까지 캡처바 배경을 확장 */
+.ref-marquee{
+  position:fixed !important;
+  left:50% !important;
+  bottom:0 !important;
+  transform:translateX(-50%) !important;
+  width:100vw !important;
+  max-width:430px !important;
+  height:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom:env(safe-area-inset-bottom, 0px) !important;
+  display:flex !important;
+  align-items:center !important;
+  z-index:3000 !important;
+}
+
+/* 글씨는 확장된 safe-area 위쪽 실제 캡처바 중앙에 오게 유지 */
+.ref-marquee-text{
+  line-height:var(--notice-h, 38px) !important;
+}
+
+/* 화면 자체의 아래 여유도 캡처바 확장 높이에 맞춤 */
+.screen{
+  padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) + 6px) !important;
+}
+
 </style>
 
 </head>
