@@ -536,30 +536,36 @@ body::after{
 
 
 
-/* fix: normal capture bar height, slight bottom gap */
+
+/* final tweak: header down, bottom gap slightly smaller, overall size slightly bigger */
+
+/* 로고/제목만 살짝 아래로 */
 .header-logo{
   width:calc(var(--logo, 22px) * 1.18) !important;
   height:calc(var(--logo, 22px) * 1.18) !important;
   flex:0 0 calc(var(--logo, 22px) * 1.18) !important;
   margin-right:calc(var(--logo-gap, 8px) + 2px) !important;
+  transform:translateY(4px) !important;
 }
 
 .title{
   font-size:calc(var(--title-f, 13px) * 1.13) !important;
   font-weight:600 !important;
   letter-spacing:-0.8px !important;
+  transform:translateY(4px) !important;
 }
 
+/* 메뉴는 기존 기준 유지 */
 .menu{
   font-size:calc(var(--menu-f, 22px) * 1.02) !important;
 }
 
-/* 캡처바는 절대 커지지 않게 정상 높이 고정 */
+/* 캡처바는 정상 높이 유지 + 아래 여백만 조금 줄임 */
 .ref-marquee{
   position:fixed !important;
   left:50% !important;
   transform:translateX(-50%) !important;
-  bottom:calc(env(safe-area-inset-bottom, 0px) * 0.45) !important;
+  bottom:calc(env(safe-area-inset-bottom, 0px) * 0.18) !important;
   width:100vw !important;
   max-width:430px !important;
   height:var(--notice-h, 38px) !important;
@@ -572,16 +578,15 @@ body::after{
   z-index:3000 !important;
 }
 
-/* 글씨도 바 높이 안에서만 보이게 */
 .ref-marquee-text{
   line-height:normal !important;
   height:auto !important;
   display:inline-block !important;
 }
 
-/* 버튼과 캡처바가 겹치지 않게 필요한 만큼만 여유 */
+/* 버튼과 캡처바가 겹치지 않게 필요한 만큼만 확보 */
 .screen{
-  padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) * 0.45 + 8px) !important;
+  padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) * 0.18 + 8px) !important;
 }
 
 </style>
@@ -926,6 +931,7 @@ render();
     var scaleByHeight = availableHeight / baseNeedHeight;
 
     var s = Math.max(1, Math.min(scaleByWidth, scaleByHeight, 1.36));
+    s = Math.min(s * 1.015, 1.38);
 
     setPx("--app-w", vw);
     setPx("--header-h", 58 * s);
