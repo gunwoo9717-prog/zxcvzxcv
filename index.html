@@ -462,6 +462,77 @@ body::after{
   margin-top:0 !important;
 }
 
+
+/* iphone16 top-white and bottom-marquee fix */
+/* 1) 아일랜드/상단 상태바 뒤 배경은 흰색 */
+.app::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:env(safe-area-inset-top, 0px);
+  background:#ffffff;
+  z-index:1;
+  pointer-events:none;
+}
+
+/* 헤더/콘텐츠는 위 흰 영역 위에 정상 표시 */
+.header,
+.screen,
+.ref-marquee{
+  position:relative;
+  z-index:2;
+}
+
+/* 2) 캡처방지 바를 화면 맨 아래에 붙임 */
+.ref-marquee{
+  bottom:0 !important;
+}
+
+/* 하단 바가 살짝 아래로 붙어도 화면이 어색하지 않게 */
+.screen{
+  padding-bottom:calc(var(--notice-h) + 8px) !important;
+}
+
+
+/* final safety check: fixed capture bar position */
+/* 상단 흰색 영역은 유지 */
+.app::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:env(safe-area-inset-top, 0px);
+  background:#ffffff;
+  z-index:1;
+  pointer-events:none;
+}
+
+/* 헤더/화면은 정상 레이어 */
+.header,
+.screen{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+/* 캡처바는 반드시 화면 맨 아래에 고정 */
+.ref-marquee{
+  position:fixed !important;
+  left:50% !important;
+  bottom:0 !important;
+  transform:translateX(-50%) !important;
+  width:100vw !important;
+  max-width:430px !important;
+  z-index:3000 !important;
+}
+
+/* 캡처바가 버튼을 덮지 않도록 화면 하단 여유만 확보 */
+.screen{
+  padding-bottom:calc(var(--notice-h) + 8px) !important;
+}
+
 </style>
 
 </head>
