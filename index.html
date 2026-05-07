@@ -23,7 +23,7 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background:#fff !important;
+  background:#fff;
 }
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
@@ -31,368 +31,360 @@ body{
 }
 body::before,
 body::after{
-  display:none !important;
-  content:none !important;
+  display:none!important;
+  content:none!important;
 }
 
 :root{
-  --safeTop: env(safe-area-inset-top, 0px);
-  --safeBottom: env(safe-area-inset-bottom, 0px);
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
 
-  --appW:317px;
-  --headerH:58px;
-  --screenTop:23px;
-  --sidePad:12px;
+  /* base design: 317 × 627, scaled by JS for iPhone 16 Pro */
+  --app-w:317px;
+  --header-h:58px;
+  --screen-top:23px;
+  --side:12px;
 
-  --cardW:291px;
-  --cardH:466px;
-  --cardR:15px;
+  --card-w:291px;
+  --card-h:466px;
+  --card-r:15px;
 
   --logo:22px;
-  --logoGap:8px;
-  --titleF:13px;
-  --menuF:22px;
+  --logo-gap:8px;
+  --title-f:13px;
+  --menu-f:22px;
 
-  --photoTop:25px;
-  --photoW:137px;
-  --photoH:172px;
+  --photo-top:25px;
+  --photo-w:137px;
+  --photo-h:172px;
 
-  --rowTop:215px;
-  --rowLeft:26px;
-  --rowRight:26px;
-  --leftPadTop:12px;
+  --row-top:215px;
+  --row-left:26px;
+  --row-right:26px;
+  --left-pad-top:12px;
 
-  --nameF:18px;
-  --birthF:17px;
-  --addrF:11px;
-  --qr:99px;
+  --name-f:18px;
+  --birth-f:17px;
+  --addr-f:11px;
+  --qr-size:99px;
 
-  --timerTop:338px;
-  --barH:4px;
-  --timeMt:8px;
-  --timeF:12px;
-  --tipTop:24px;
-  --tipF:8px;
+  --timer-top:338px;
+  --bar-h:4px;
+  --time-mt:8px;
+  --time-f:12px;
+  --tip-top:24px;
+  --tip-f:8px;
 
-  --bottomH:49px;
-  --bottomF:16px;
+  --bottom-h:49px;
+  --bottom-f:16px;
 
-  --noticeH:38px;
-  --noticeF:12px;
+  --notice-h:38px;
+  --notice-f:12px;
+
+  --detail-meta-top:357px;
 }
 
 .app{
-  width:var(--appW) !important;
-  max-width:var(--appW) !important;
-  height:100dvh !important;
-  min-height:100dvh !important;
-  margin:0 auto !important;
-  padding-top:var(--safeTop) !important;
-  overflow:hidden !important;
-  position:relative !important;
-  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+  width:var(--app-w);
+  max-width:430px;
+  height:100dvh;
+  min-height:100dvh;
+  margin:0 auto;
+  padding-top:var(--safe-top);
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%);
 }
 
 /* header */
 .header{
-  position:relative !important;
-  width:100% !important;
-  height:var(--headerH) !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  padding:0 var(--sidePad) !important;
-  background:transparent !important;
-  z-index:1000 !important;
+  position:relative;
+  width:100%;
+  height:var(--header-h);
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:0 var(--side);
+  background:transparent;
+  z-index:1000;
 }
-.header::before{
-  display:none !important;
-  content:none !important;
-}
-.back{
-  display:none !important;
-}
+.header::before{display:none!important;content:none!important}
+.back{display:none!important}
 .header-logo{
-  width:var(--logo) !important;
-  height:var(--logo) !important;
-  flex:0 0 var(--logo) !important;
-  object-fit:contain !important;
-  display:block !important;
-  margin:0 var(--logoGap) 0 0 !important;
-  background:transparent !important;
-  border:0 !important;
-  border-radius:0 !important;
+  width:var(--logo)!important;
+  height:var(--logo)!important;
+  flex:0 0 var(--logo)!important;
+  object-fit:contain!important;
+  display:block!important;
+  margin:0 var(--logo-gap) 0 0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
 }
 .title{
-  font-size:var(--titleF) !important;
-  line-height:1 !important;
-  font-weight:600 !important;
-  color:#5d6477 !important;
-  letter-spacing:-0.68px !important;
-  white-space:nowrap !important;
+  font-size:var(--title-f)!important;
+  line-height:1!important;
+  font-weight:600!important;
+  color:#5d6477!important;
+  letter-spacing:-0.68px!important;
+  white-space:nowrap!important;
 }
 .menu{
-  position:absolute !important;
-  right:var(--sidePad) !important;
-  top:50% !important;
-  transform:translateY(-50%) !important;
-  font-size:var(--menuF) !important;
-  color:#5d6477 !important;
-  font-weight:300 !important;
-  line-height:1 !important;
-  cursor:pointer !important;
+  position:absolute!important;
+  right:var(--side)!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  font-size:var(--menu-f)!important;
+  color:#5d6477!important;
+  font-weight:300!important;
+  line-height:1!important;
+  cursor:pointer!important;
 }
-.tabs{
-  display:none !important;
-}
+.tabs{display:none!important}
 
 /* screens */
 .screen{
   display:none;
-  height:calc(100dvh - var(--safeTop) - var(--headerH)) !important;
-  padding:var(--screenTop) var(--sidePad) calc(var(--noticeH) + var(--safeBottom) + 8px) !important;
-  overflow:hidden !important;
-  background:transparent !important;
+  height:calc(100dvh - var(--safe-top) - var(--header-h));
+  padding:var(--screen-top) var(--side) calc(var(--notice-h) + var(--safe-bottom) + 8px);
+  overflow:hidden;
+  background:transparent;
 }
-.screen.active{
-  display:block;
-}
+.screen.active{display:block}
 
 /* card */
 .card{
-  width:var(--cardW) !important;
-  height:var(--cardH) !important;
-  margin:0 auto !important;
-  background:#fafafa !important;
-  border-radius:var(--cardR) !important;
-  overflow:hidden !important;
-  box-shadow:none !important;
-  position:relative !important;
+  width:var(--card-w);
+  height:var(--card-h);
+  margin:0 auto;
+  background:#fafafa;
+  border-radius:var(--card-r);
+  overflow:hidden;
+  box-shadow:none;
+  position:relative;
 }
-.demo{
-  display:none !important;
-}
+.demo{display:none!important}
 .card-inner{
-  position:absolute !important;
-  inset:0 0 var(--bottomH) 0 !important;
-  padding:0 !important;
+  position:absolute;
+  inset:0 0 var(--bottom-h) 0;
+  padding:0!important;
 }
 .photo{
-  position:absolute !important;
-  top:var(--photoTop) !important;
-  left:50% !important;
-  transform:translateX(-50%) !important;
-  width:var(--photoW) !important;
-  height:var(--photoH) !important;
-  object-fit:cover !important;
-  display:block !important;
-  margin:0 !important;
-  background:#f1f1f1 !important;
+  position:absolute!important;
+  top:var(--photo-top)!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  width:var(--photo-w)!important;
+  height:var(--photo-h)!important;
+  object-fit:cover!important;
+  display:block!important;
+  margin:0!important;
+  background:#f1f1f1!important;
 }
 
-/* info row */
 .row{
-  position:absolute !important;
-  top:var(--rowTop) !important;
-  left:var(--rowLeft) !important;
-  right:var(--rowRight) !important;
-  display:flex !important;
-  justify-content:space-between !important;
-  align-items:flex-start !important;
-  gap:8px !important;
+  position:absolute!important;
+  top:var(--row-top)!important;
+  left:var(--row-left)!important;
+  right:var(--row-right)!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:flex-start!important;
+  gap:8px!important;
 }
 .left{
-  flex:1 !important;
-  min-width:0 !important;
-  padding-top:var(--leftPadTop) !important;
-  overflow:visible !important;
+  flex:1!important;
+  min-width:0!important;
+  padding-top:var(--left-pad-top)!important;
+  overflow:visible!important;
 }
 .name{
-  font-size:var(--nameF) !important;
-  line-height:1.1 !important;
-  font-weight:500 !important;
-  color:#333 !important;
-  letter-spacing:-0.55px !important;
-  margin:0 0 8px !important;
-  min-height:auto !important;
+  font-size:var(--name-f)!important;
+  line-height:1.1!important;
+  font-weight:500!important;
+  color:#333!important;
+  letter-spacing:-0.55px!important;
+  margin:0 0 8px!important;
+  min-height:auto!important;
 }
 .birth,
 .num{
-  font-size:var(--birthF) !important;
-  line-height:1.1 !important;
-  font-weight:500 !important;
-  color:#333 !important;
-  letter-spacing:-0.35px !important;
-  margin:0 0 8px !important;
-  min-height:auto !important;
+  font-size:var(--birth-f)!important;
+  line-height:1.1!important;
+  font-weight:500!important;
+  color:#333!important;
+  letter-spacing:-0.35px!important;
+  margin:0 0 8px!important;
+  min-height:auto!important;
 }
 .addr,
 .layer{
-  font-size:var(--addrF) !important;
-  line-height:1.25 !important;
-  color:#b0b0b0 !important;
-  font-weight:500 !important;
-  letter-spacing:-0.25px !important;
-  white-space:pre-line !important;
+  font-size:var(--addr-f)!important;
+  line-height:1.25!important;
+  color:#b0b0b0!important;
+  font-weight:500!important;
+  letter-spacing:-0.25px!important;
+  white-space:pre-line!important;
 }
 #qr{
-  width:var(--qr) !important;
-  height:var(--qr) !important;
-  flex:0 0 var(--qr) !important;
+  width:var(--qr-size)!important;
+  height:var(--qr-size)!important;
+  flex:0 0 var(--qr-size)!important;
 }
 
-/* detail screen: no scroll, same ratio */
-#detailScreen .card{
-  height:var(--cardH) !important;
-}
-#detailScreen .row{
-  top:var(--rowTop) !important;
-}
-#detailScreen .left{
-  padding-top:var(--leftPadTop) !important;
-  max-height:none !important;
-  overflow:visible !important;
-}
+/* detail */
+#detailScreen .timer{display:none!important}
 #detailScreen .name{
-  font-size:var(--nameF) !important;
-  line-height:1.1 !important;
-  margin:0 0 6px !important;
+  font-size:var(--name-f)!important;
+  line-height:1.1!important;
+  margin:0 0 7px!important;
 }
 #detailScreen .num{
-  font-size:calc(var(--birthF) * .78) !important;
-  line-height:1.02 !important;
-  margin:0 0 3px !important;
+  font-size:calc(var(--birth-f) * .96)!important;
+  line-height:1.1!important;
+  margin:0 0 6px!important;
 }
 .stack{
-  position:relative !important;
-  height:28px !important;
-  min-height:28px !important;
-  margin:0 0 3px !important;
-  overflow:hidden !important;
+  position:relative!important;
+  height:54px!important;
+  min-height:54px!important;
+  margin:0!important;
+  overflow:hidden!important;
 }
 .layer{
-  position:absolute !important;
-  top:0 !important;
-  left:0 !important;
-  width:100% !important;
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  width:100%!important;
 }
 #detailScreen .layer{
-  font-size:calc(var(--addrF) * .82) !important;
-  line-height:1.08 !important;
-  word-break:keep-all !important;
-  overflow-wrap:anywhere !important;
+  font-size:calc(var(--addr-f) * 1.02)!important;
+  line-height:1.2!important;
+  word-break:keep-all!important;
+  overflow-wrap:anywhere!important;
 }
 .hidden{
-  opacity:0 !important;
-  pointer-events:none !important;
+  opacity:0!important;
+  pointer-events:none!important;
 }
-.issue{
-  font-size:calc(var(--addrF) * .82) !important;
-  line-height:1.08 !important;
-  margin:0 0 2px !important;
-  color:#777 !important;
-  min-height:auto !important;
-}
-.org{
-  font-size:calc(var(--addrF) * .82) !important;
-  line-height:1.08 !important;
-  margin:0 !important;
-  color:#aaa !important;
-  min-height:auto !important;
-}
-
-/* toggle */
 .toggle{
-  width:56px !important;
-  height:31px !important;
-  border-radius:999px !important;
-  background:#e8e8e8 !important;
-  position:relative !important;
-  flex:0 0 56px !important;
-  margin-top:38px !important;
-  cursor:pointer !important;
-  transition:background .18s ease !important;
+  width:56px!important;
+  height:31px!important;
+  border-radius:999px!important;
+  background:#e8e8e8!important;
+  position:relative!important;
+  flex:0 0 56px!important;
+  margin-top:38px!important;
+  cursor:pointer!important;
+  transition:background .18s ease!important;
 }
 .toggle::after{
-  content:"" !important;
-  width:25px !important;
-  height:25px !important;
-  border-radius:50% !important;
-  background:#fff !important;
-  position:absolute !important;
-  top:3px !important;
-  left:3px !important;
-  box-shadow:0 2px 6px rgba(0,0,0,.14) !important;
-  transition:left .18s ease !important;
+  content:""!important;
+  width:25px!important;
+  height:25px!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  position:absolute!important;
+  top:3px!important;
+  left:3px!important;
+  box-shadow:0 2px 6px rgba(0,0,0,.14)!important;
+  transition:left .18s ease!important;
 }
-.toggle.on{
-  background:#1f1d23 !important;
+.toggle.on{background:#1f1d23!important}
+.toggle.on::after{left:28px!important}
+
+.detail-center-meta{
+  position:absolute!important;
+  left:50%!important;
+  top:var(--detail-meta-top)!important;
+  transform:translateX(-50%)!important;
+  width:calc(100% - 52px)!important;
+  text-align:center!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  pointer-events:none!important;
 }
-.toggle.on::after{
-  left:28px !important;
+.detail-center-meta .issue{
+  font-size:calc(var(--addr-f) * 1.02)!important;
+  line-height:1.22!important;
+  font-weight:600!important;
+  color:#333!important;
+  margin:0 0 8px!important;
+  min-height:auto!important;
+  white-space:pre-line!important;
+}
+.detail-center-meta .org{
+  font-size:calc(var(--addr-f) * 1.02)!important;
+  line-height:1.22!important;
+  font-weight:500!important;
+  color:#777!important;
+  margin:0!important;
+  min-height:auto!important;
+  white-space:pre-line!important;
 }
 
 /* timer */
 .timer{
-  position:absolute !important;
-  left:var(--rowLeft) !important;
-  right:var(--rowRight) !important;
-  top:var(--timerTop) !important;
-  margin:0 !important;
+  position:absolute!important;
+  left:var(--row-left)!important;
+  right:var(--row-right)!important;
+  top:var(--timer-top)!important;
+  margin:0!important;
 }
 .bar{
-  height:var(--barH) !important;
-  background:#e4e4e4 !important;
-  border-radius:0 !important;
-  overflow:hidden !important;
+  height:var(--bar-h)!important;
+  background:#e4e4e4!important;
+  border-radius:0!important;
+  overflow:hidden!important;
 }
 .progress{
-  height:100% !important;
+  height:100%!important;
   width:100%;
-  background:#1859e8 !important;
-  border-radius:0 !important;
+  background:#1859e8!important;
+  border-radius:0!important;
 }
 .time{
-  position:relative !important;
-  margin-top:var(--timeMt) !important;
-  display:flex !important;
-  justify-content:space-between !important;
-  font-size:var(--timeF) !important;
-  font-weight:500 !important;
-  color:#a5a5a5 !important;
+  position:relative!important;
+  margin-top:var(--time-mt)!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  font-size:var(--time-f)!important;
+  font-weight:500!important;
+  color:#a5a5a5!important;
 }
 .time .label,
 .time .value{
-  color:#a5a5a5 !important;
-  font-weight:500 !important;
+  color:#a5a5a5!important;
+  font-weight:500!important;
 }
 .time::after{
   content:"QR코드를 리더기에 스캔하세요";
   position:absolute;
   left:50%;
-  top:var(--tipTop);
+  top:var(--tip-top);
   transform:translateX(-50%);
   color:#dddddd;
-  font-size:var(--tipF);
+  font-size:var(--tip-f);
   white-space:nowrap;
 }
 
-/* bottom button */
 .bottom{
-  position:absolute !important;
-  left:0 !important;
-  right:0 !important;
-  bottom:0 !important;
-  height:var(--bottomH) !important;
-  width:100% !important;
-  background:#1550e8 !important;
-  color:#fff !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  font-size:var(--bottomF) !important;
-  font-weight:500 !important;
-  cursor:pointer !important;
+  position:absolute!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  height:var(--bottom-h)!important;
+  width:100%!important;
+  background:#1550e8!important;
+  color:#fff!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:var(--bottom-f)!important;
+  font-weight:500!important;
+  cursor:pointer!important;
 }
 
 /* panels */
@@ -405,13 +397,8 @@ body::after{
   padding:calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
   overflow:auto;
 }
-.panel.active{
-  display:block;
-}
-.panel h3{
-  margin:0 0 18px;
-  font-size:20px;
-}
+.panel.active{display:block}
+.panel h3{margin:0 0 18px;font-size:20px}
 .panel button{
   padding:11px 14px;
   border:0;
@@ -421,15 +408,8 @@ body::after{
   margin:4px 6px 10px 0;
   font-size:15px;
 }
-.panel button.gray{
-  background:#ddd;
-  color:#111;
-}
-.panel label{
-  display:block;
-  margin-top:12px;
-  font-weight:700;
-}
+.panel button.gray{background:#ddd;color:#111}
+.panel label{display:block;margin-top:12px;font-weight:700}
 .panel input,
 .panel textarea{
   width:100%;
@@ -440,244 +420,36 @@ body::after{
   font-size:16px;
   font-family:inherit;
 }
-.panel textarea{
-  min-height:82px;
-  resize:vertical;
-}
+.panel textarea{min-height:82px;resize:vertical}
 
 /* marquee */
 .ref-marquee{
-  position:fixed !important;
-  left:50% !important;
-  bottom:var(--safeBottom) !important;
-  transform:translateX(-50%) !important;
-  width:var(--appW) !important;
-  height:var(--noticeH) !important;
-  overflow:hidden !important;
-  z-index:3000 !important;
-  display:flex !important;
-  align-items:center !important;
-  background:linear-gradient(90deg,#30c4ee 0%,#4177ff 55%,#8457ff 100%) !important;
+  position:fixed!important;
+  left:50%!important;
+  bottom:var(--safe-bottom)!important;
+  transform:translateX(-50%)!important;
+  width:var(--app-w)!important;
+  max-width:430px!important;
+  height:var(--notice-h)!important;
+  overflow:hidden!important;
+  z-index:3000!important;
+  display:flex!important;
+  align-items:center!important;
+  background:linear-gradient(90deg,#30c4ee 0%,#4177ff 55%,#8457ff 100%)!important;
 }
 .ref-marquee-text{
-  display:inline-block !important;
-  white-space:nowrap !important;
-  color:#fff !important;
-  font-size:var(--noticeF) !important;
-  font-weight:600 !important;
-  letter-spacing:-.2px !important;
-  will-change:transform !important;
-  animation:refTicker 6.5s steps(110,end) infinite !important;
+  display:inline-block!important;
+  white-space:nowrap!important;
+  color:#fff!important;
+  font-size:var(--notice-f)!important;
+  font-weight:600!important;
+  letter-spacing:-.2px!important;
+  will-change:transform!important;
+  animation:refTicker 6.5s steps(110,end) infinite!important;
 }
 @keyframes refTicker{
   0%{transform:translateX(0)}
   100%{transform:translateX(-33.333%)}
-}
-
-
-/* second screen only: hide QR bar and enlarge remaining info */
-#detailScreen .timer{
-  display:none !important;
-}
-
-#detailScreen .left{
-  padding-top:var(--leftPadTop) !important;
-  max-height:none !important;
-  overflow:visible !important;
-}
-
-#detailScreen .name{
-  font-size:var(--nameF) !important;
-  line-height:1.1 !important;
-  margin:0 0 7px !important;
-}
-
-/* QR 바를 숨긴 만큼 아래 정보들을 더 크게 표시 */
-#detailScreen .num{
-  font-size:calc(var(--birthF) * .92) !important;
-  line-height:1.08 !important;
-  margin:0 0 5px !important;
-}
-
-#detailScreen .stack{
-  height:40px !important;
-  min-height:40px !important;
-  margin:0 0 5px !important;
-  overflow:hidden !important;
-}
-
-#detailScreen .layer{
-  font-size:calc(var(--addrF) * .96) !important;
-  line-height:1.18 !important;
-  white-space:pre-line !important;
-  word-break:keep-all !important;
-  overflow-wrap:anywhere !important;
-}
-
-#detailScreen .issue{
-  font-size:calc(var(--addrF) * .96) !important;
-  line-height:1.18 !important;
-  margin:0 0 4px !important;
-  color:#777 !important;
-}
-
-#detailScreen .org{
-  font-size:calc(var(--addrF) * .96) !important;
-  line-height:1.18 !important;
-  color:#aaa !important;
-  margin:0 !important;
-}
-
-
-
-
-/* detail screen layout like reference: issue/org centered under address */
-#detailScreen .timer{
-  display:none !important;
-}
-
-/* 첫 화면 비율 유지, 두 번째 화면 내용만 정리 */
-#detailScreen .left{
-  padding-top:var(--leftPadTop) !important;
-  max-height:none !important;
-  overflow:visible !important;
-}
-
-#detailScreen .name{
-  font-size:var(--nameF) !important;
-  line-height:1.1 !important;
-  margin:0 0 7px !important;
-}
-
-#detailScreen .num{
-  font-size:calc(var(--birthF) * .9) !important;
-  line-height:1.08 !important;
-  margin:0 0 5px !important;
-}
-
-#detailScreen .stack{
-  height:48px !important;
-  min-height:48px !important;
-  margin:0 !important;
-  overflow:hidden !important;
-}
-
-#detailScreen .layer{
-  font-size:calc(var(--addrF) * .92) !important;
-  line-height:1.18 !important;
-  white-space:pre-line !important;
-  word-break:keep-all !important;
-  overflow-wrap:anywhere !important;
-}
-
-#detailScreen .toggle{
-  margin-top:36px !important;
-}
-
-/* 사진 속처럼 발급일/발급기관을 카드 하단 중앙이 아니라
-   상세주소 아래쪽 중앙에 배치 */
-#detailScreen .detail-center-meta{
-  position:absolute !important;
-  left:50% !important;
-  top:calc(var(--rowTop) + 118px) !important;
-  transform:translateX(-50%) !important;
-  width:calc(100% - 52px) !important;
-  text-align:center !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  pointer-events:none !important;
-}
-
-#detailScreen .detail-center-meta .issue{
-  font-size:calc(var(--addrF) * .98) !important;
-  line-height:1.2 !important;
-  font-weight:600 !important;
-  color:#333 !important;
-  margin:0 0 7px !important;
-  min-height:auto !important;
-  white-space:pre-line !important;
-}
-
-#detailScreen .detail-center-meta .org{
-  font-size:calc(var(--addrF) * .98) !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  color:#777 !important;
-  margin:0 !important;
-  min-height:auto !important;
-  white-space:pre-line !important;
-}
-
-
-/* final detail screen fine tune */
-#detailScreen .num{
-  font-size:calc(var(--birthF) * .96) !important;
-  line-height:1.1 !important;
-  margin:0 0 6px !important;
-}
-
-#detailScreen .stack{
-  height:54px !important;
-  min-height:54px !important;
-  margin:0 !important;
-}
-
-#detailScreen .layer{
-  font-size:calc(var(--addrF) * 1.02) !important;
-  line-height:1.2 !important;
-}
-
-#detailScreen .detail-center-meta{
-  top:calc(var(--rowTop) + 142px) !important;
-}
-
-#detailScreen .detail-center-meta .issue{
-  font-size:calc(var(--addrF) * 1.02) !important;
-  line-height:1.22 !important;
-  margin:0 0 8px !important;
-}
-
-#detailScreen .detail-center-meta .org{
-  font-size:calc(var(--addrF) * 1.02) !important;
-  line-height:1.22 !important;
-}
-
-
-/* iPhone 16 Pro full-screen background fix */
-html,
-body{
-  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
-  width:100% !important;
-  min-height:100dvh !important;
-  overflow:hidden !important;
-}
-body{
-  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
-}
-.app{
-  background:transparent !important;
-}
-.screen{
-  background:transparent !important;
-}
-
-/* 내용 비율은 그대로 두고, 화면 바깥 흰 여백만 없앰 */
-.ref-marquee{
-  width:100vw !important;
-  max-width:430px !important;
-  left:50% !important;
-  transform:translateX(-50%) !important;
-}
-
-@media (min-width:431px){
-  html,body{
-    background:#ffffff !important;
-  }
-  .app{
-    background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
-  }
 }
 
 </style>
@@ -770,10 +542,12 @@ body{
               <div id="addrReal" class="layer"></div>
               <div id="addrMask" class="layer"></div>
             </div>
-            <div id="issue2" class="issue"></div>
-            <div id="org2" class="org"></div>
           </div>
           <div id="toggle" class="toggle"></div>
+        </div>
+        <div class="detail-center-meta">
+          <div id="issue2" class="issue"></div>
+          <div id="org2" class="org"></div>
         </div>
         <div class="timer">
           <div class="bar"><div id="bar2" class="progress"></div></div>
@@ -979,64 +753,82 @@ render();
 
 
 
-<script>
-(function(){
-  function fitDetailAddress(){
-    const screen = document.getElementById("detailScreen");
-    if(!screen) return;
-    const stack = screen.querySelector(".stack");
-    const real = document.getElementById("addrReal");
-    const mask = document.getElementById("addrMask");
-    if(!stack || !real || !mask) return;
 
-    const visible = real.classList.contains("hidden") ? mask : real;
-    requestAnimationFrame(function(){
-      const h = Math.max(34, Math.min(visible.scrollHeight || 40, 44));
-      stack.style.height = h + "px";
-      stack.style.minHeight = h + "px";
-    });
+<script id="iphone16-clean-ratio">
+(function(){
+  function setPx(name, value){
+    document.documentElement.style.setProperty(name, value + "px");
   }
 
-  document.addEventListener("DOMContentLoaded", function(){
-    fitDetailAddress();
+  function applyRatio(){
+    var vw = Math.min(window.innerWidth || 317, 430);
+    var s = Math.max(1, Math.min(vw / 317, 1.36));
 
-    const toDetail = document.getElementById("toDetail");
-    const toggle = document.getElementById("toggle");
-    const saveDetail = document.getElementById("saveDetail");
+    setPx("--app-w", vw);
+    setPx("--header-h", 58 * s);
+    setPx("--screen-top", 23 * s);
+    setPx("--side", 12 * s);
 
-    if(toDetail) toDetail.addEventListener("click", function(){ setTimeout(fitDetailAddress, 60); });
-    if(toggle) toggle.addEventListener("click", function(){ setTimeout(fitDetailAddress, 60); });
-    if(saveDetail) saveDetail.addEventListener("click", function(){ setTimeout(fitDetailAddress, 80); });
-  });
-})();
-</script>
+    setPx("--card-w", Math.min(vw - (24 * s), 291 * s));
+    setPx("--card-h", 466 * s);
+    setPx("--card-r", 15 * s);
 
+    setPx("--logo", 22 * s);
+    setPx("--logo-gap", 8 * s);
+    setPx("--title-f", 13 * s);
+    setPx("--menu-f", 22 * s);
 
+    setPx("--photo-top", 25 * s);
+    setPx("--photo-w", 137 * s);
+    setPx("--photo-h", 172 * s);
 
+    setPx("--row-top", 215 * s);
+    setPx("--row-left", 26 * s);
+    setPx("--row-right", 26 * s);
+    setPx("--left-pad-top", 12 * s);
 
-<script>
-(function(){
-  function moveDetailMetaToCenter(){
-    const screen = document.getElementById("detailScreen");
-    if(!screen) return;
+    setPx("--name-f", 18 * s);
+    setPx("--birth-f", 17 * s);
+    setPx("--addr-f", 11 * s);
+    setPx("--qr-size", 99 * s);
 
-    const cardInner = screen.querySelector(".card-inner");
-    const issue = document.getElementById("issue2");
-    const org = document.getElementById("org2");
-    if(!cardInner || !issue || !org) return;
+    setPx("--timer-top", 338 * s);
+    setPx("--bar-h", Math.max(4, 4 * s));
+    setPx("--time-mt", 8 * s);
+    setPx("--time-f", 12 * s);
+    setPx("--tip-top", 24 * s);
+    setPx("--tip-f", 8 * s);
 
-    let box = cardInner.querySelector(".detail-center-meta");
-    if(!box){
-      box = document.createElement("div");
-      box.className = "detail-center-meta";
-      cardInner.appendChild(box);
-    }
+    setPx("--bottom-h", 49 * s);
+    setPx("--bottom-f", 16 * s);
+    setPx("--notice-h", 38 * s);
+    setPx("--notice-f", 12 * s);
 
-    if(issue.parentElement !== box) box.appendChild(issue);
-    if(org.parentElement !== box) box.appendChild(org);
+    setPx("--detail-meta-top", 357 * s);
+
+    setTimeout(function(){
+      var qr = document.getElementById("qr");
+      if(window.QRCode && qr){
+        QRCode.toCanvas(qr, "demo-qr", {
+          width: Math.round(99 * s),
+          margin: 0
+        });
+      }
+    }, 80);
   }
 
-  document.addEventListener("DOMContentLoaded", moveDetailMetaToCenter);
+  function run(){
+    applyRatio();
+    setTimeout(applyRatio, 120);
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", run);
+  }else{
+    run();
+  }
+  window.addEventListener("resize", run);
+  window.addEventListener("orientationchange", run);
 })();
 </script>
 
