@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Demo Card">
@@ -648,6 +648,62 @@ body::after{
 /* 화면 맨 아래에 혹시 보이는 빈 공간도 같은 배경색으로 덮음 */
 body{
   background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+}
+
+
+
+/* ios app viewport safe-area fix only */
+/* 앱 규격 문제 보정: 내부 카드/캡처바/내용물 크기 변경 없음 */
+html,
+body{
+  width:100%;
+  height:100%;
+  min-height:100%;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+}
+
+/* iPhone 홈화면 앱에서 100dvh 계산 차이로 생기는 흰 여백 방지 */
+body{
+  position:fixed !important;
+  inset:0 !important;
+  min-height:100dvh !important;
+}
+
+/* 실제 앱 배경만 화면 전체를 덮게 함. 내부 요소 크기는 그대로 둠 */
+.app{
+  position:fixed !important;
+  left:50% !important;
+  top:0 !important;
+  transform:translateX(-50%) !important;
+  width:var(--app-w) !important;
+  max-width:430px !important;
+  height:100dvh !important;
+  min-height:100dvh !important;
+  overflow:hidden !important;
+  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+}
+
+/* 혹시 viewport 바깥 안전영역이 남아도 같은 배경으로 깔기 */
+.app::after{
+  content:"";
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:100vw;
+  max-width:430px;
+  height:env(safe-area-inset-bottom, 0px);
+  background:linear-gradient(180deg,#dfe5fb 0%,#d8defb 100%);
+  pointer-events:none;
+  z-index:1;
+}
+
+/* 캡처방지 시스템은 원래 위치/크기 유지 */
+.ref-marquee{
+  z-index:3000 !important;
 }
 
 </style>
