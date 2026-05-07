@@ -589,6 +589,50 @@ body::after{
   padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) * 0.18 + 8px) !important;
 }
 
+
+/* capture bar visual length only */
+/* 캡처방지 시스템 바 내부/글씨/높이는 그대로 유지 */
+.ref-marquee{
+  height:var(--notice-h, 38px) !important;
+  min-height:0 !important;
+  max-height:var(--notice-h, 38px) !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+
+/* 폰에서 아래가 살짝 비는 부분만 같은 색으로 연장 */
+.ref-marquee::after{
+  content:"";
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:10px;
+  background:linear-gradient(90deg,#30c4ee 0%,#4177ff 55%,#8457ff 100%);
+  pointer-events:none;
+  z-index:-1;
+}
+
+
+
+/* card vertical smaller only */
+/* 전체 축소 X, 가로 유지. 카드 세로 길이만 조금 줄임 */
+.card{
+  transform:none !important;
+  width:var(--card-w) !important;
+  height:calc(var(--card-h) - 16px) !important;
+}
+
+/* 파란 버튼은 줄어든 카드의 맨 아래에 그대로 붙임 */
+.bottom{
+  bottom:0 !important;
+}
+
+/* 안쪽 내용 크기/위치는 건드리지 않음 */
+.card-inner{
+  inset:0 0 var(--bottom-h) 0 !important;
+}
+
 </style>
 
 </head>
