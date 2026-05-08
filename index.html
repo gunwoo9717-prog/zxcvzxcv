@@ -1151,29 +1151,51 @@ body:has(#detailScreen.active) .global-detail-back-arrow{
 }
 
 
-/* safe qr timebar smudge fix without stopping animations */
-/* JS/애니메이션 건드리지 않고, QR 시간바의 파란색 번짐처럼 보이는 부분만 클리핑 */
+
+/* iphone qr timer bar stripe fix */
+/* QR 시간 바 오른쪽 회색 부분에 파란 줄/잔상이 묻어 보이는 iOS 렌더링 문제 방지 */
 .timer .bar{
   position:relative !important;
-  overflow:hidden !important;
-  clip-path:inset(0 0 0 0) !important;
-  -webkit-clip-path:inset(0 0 0 0) !important;
+  height:var(--bar-h, 4px) !important;
   background:#e4e4e4 !important;
-  box-shadow:none !important;
-  filter:none !important;
+  overflow:hidden !important;
+  border-radius:0 !important;
+  isolation:isolate !important;
+  transform:translateZ(0) !important;
+  -webkit-transform:translateZ(0) !important;
 }
 
+/* 파란 진행바는 왼쪽에만 존재 */
 .timer .progress{
-  display:block !important;
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  bottom:0 !important;
   height:100% !important;
   background:#1859e8 !important;
+  border:0 !important;
+  outline:0 !important;
   box-shadow:none !important;
   filter:none !important;
-  outline:0 !important;
-  border:0 !important;
   transform:none !important;
   -webkit-transform:none !important;
   will-change:width !important;
+  z-index:1 !important;
+}
+
+/* 회색 바탕을 progress 뒤에 두지 않고, 같은 레이어 위에서 깔끔하게 보이도록 보정 */
+.timer .bar::after{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:#e4e4e4 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+}
+
+/* progress가 ::after보다 위에 오도록 확실히 고정 */
+.timer .progress{
+  z-index:2 !important;
 }
 
 </style>
