@@ -767,6 +767,50 @@ body,
   z-index:1 !important;
 }
 
+
+/* ios home-indicator boundary fix: photo1 bottom length */
+/* 파란색으로 표시한 곳은 HTML 내부가 아니라 iPhone home-indicator safe-area 쪽이라,
+   캡처바 모양/글씨/높이는 그대로 두고 위치 계산만 1번 사진처럼 맞춤. */
+
+/* 이전에 넣었던 가짜 아래 연장선은 전부 끔 */
+.ref-marquee::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* 캡처바 자체 모양 유지 */
+.ref-marquee{
+  position:fixed !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  width:100vw !important;
+  max-width:430px !important;
+  height:var(--notice-h, 38px) !important;
+  min-height:0 !important;
+  max-height:var(--notice-h, 38px) !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  display:flex !important;
+  align-items:center !important;
+  z-index:3000 !important;
+
+  /* 핵심: iPhone 앱 실행 시 safe-area 위로 너무 떠 보이는 걸 1번 사진 길이로 보정 */
+  bottom:0 !important;
+}
+
+/* 글씨 모양 유지 */
+.ref-marquee-text{
+  height:auto !important;
+  line-height:normal !important;
+  display:inline-block !important;
+}
+
+/* iOS에서 바깥 홈 인디케이터 영역은 원래처럼 흰색으로 남김 */
+html,
+body{
+  background:#fff !important;
+}
+
 </style>
 
 </head>
