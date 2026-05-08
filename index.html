@@ -1150,6 +1150,32 @@ body:has(#detailScreen.active) .global-detail-back-arrow{
   background:transparent !important;
 }
 
+
+/* safe qr timebar smudge fix without stopping animations */
+/* JS/애니메이션 건드리지 않고, QR 시간바의 파란색 번짐처럼 보이는 부분만 클리핑 */
+.timer .bar{
+  position:relative !important;
+  overflow:hidden !important;
+  clip-path:inset(0 0 0 0) !important;
+  -webkit-clip-path:inset(0 0 0 0) !important;
+  background:#e4e4e4 !important;
+  box-shadow:none !important;
+  filter:none !important;
+}
+
+.timer .progress{
+  display:block !important;
+  height:100% !important;
+  background:#1859e8 !important;
+  box-shadow:none !important;
+  filter:none !important;
+  outline:0 !important;
+  border:0 !important;
+  transform:none !important;
+  -webkit-transform:none !important;
+  will-change:width !important;
+}
+
 </style>
 
 </head>
