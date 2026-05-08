@@ -811,6 +811,75 @@ body{
   background:#fff !important;
 }
 
+
+/* ios outer-boundary scroll workaround only */
+/* 내부 카드/캡처바 모양은 유지하고,
+   아이폰 앱 실행 시 생기는 바깥 경계만 스크롤 가능한 외곽 레이어로 흡수 */
+html,
+body{
+  width:100% !important;
+  min-height:100% !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  background:#ffffff !important;
+}
+
+/* 바깥 배경이 홈 인디케이터 영역까지 이어지게 함 */
+body{
+  position:relative !important;
+}
+
+/* 핵심: .app를 fixed가 아니라 자연스러운 스크롤 컨테이너로 바꿔
+   iOS가 자동으로 잡는 하단 경계 차이를 흡수 */
+.app{
+  position:relative !important;
+  left:auto !important;
+  top:auto !important;
+  transform:none !important;
+  width:var(--app-w) !important;
+  max-width:430px !important;
+  margin:0 auto !important;
+  height:auto !important;
+  min-height:calc(var(--ios-vh, 100vh) + env(safe-area-inset-bottom, 0px) + 18px) !important;
+  overflow:visible !important;
+  padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 18px) !important;
+  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+}
+
+/* 화면 부분도 fixed-height 강제 대신 자연 높이 */
+.screen{
+  min-height:calc(var(--ios-vh, 100vh) - var(--safe-top) - var(--header-h)) !important;
+  height:auto !important;
+}
+
+/* 캡처바 자체는 그대로, 화면 맨 아래에 고정 */
+.ref-marquee{
+  position:fixed !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  bottom:0 !important;
+  width:100vw !important;
+  max-width:430px !important;
+  z-index:3000 !important;
+}
+
+/* 홈 인디케이터 아래쪽 흰 경계가 덜 보이게, 바깥 배경 레이어만 추가 */
+body::after{
+  content:"";
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:calc(env(safe-area-inset-bottom, 0px) + 18px);
+  background:linear-gradient(180deg,#dfe5fb 0%,#d8defb 100%);
+  pointer-events:none;
+  z-index:1;
+}
+
 </style>
 
 </head>
@@ -1223,6 +1292,22 @@ render();
 
   window.addEventListener("resize", run);
   window.addEventListener("orientationchange", run);
+})();
+</script>
+
+
+<script id="ios-outer-boundary-scroll-fix">
+(function(){
+  function setRealViewport(){
+    var h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--ios-vh', h + 'px');
+  }
+  setRealViewport();
+  window.addEventListener('resize', setRealViewport);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', setRealViewport);
+    window.visualViewport.addEventListener('scroll', setRealViewport);
+  }
 })();
 </script>
 
