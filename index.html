@@ -880,6 +880,138 @@ body::after{
   z-index:1;
 }
 
+
+/* make bottom white gap like photo2 from photo1 html */
+/* 1번째 HTML 기준. 카드/내용물/캡처바 모양은 건드리지 않고,
+   iPhone 하단 흰색 여백만 2번째 사진 정도로 맞춤. */
+
+/* 밑 배경은 흰색으로 보이게 */
+html,
+body{
+  background:#fff !important;
+}
+
+/* 이전 외곽 그라데이션 덮개는 끔 */
+body::after,
+.ref-marquee::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* 캡처방지 바 자체 크기/모양은 그대로, 위치만 위로 올려 흰 여백 확보 */
+.ref-marquee{
+  position:fixed !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 18px) !important;
+  width:100vw !important;
+  max-width:430px !important;
+  height:var(--notice-h, 38px) !important;
+  min-height:0 !important;
+  max-height:var(--notice-h, 38px) !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  display:flex !important;
+  align-items:center !important;
+  z-index:3000 !important;
+}
+
+/* 앱 배경은 원래처럼 위쪽 영역만 유지 */
+.app{
+  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+}
+
+
+/* bottom bar slightly higher */
+/* 캡처바 모양/크기 그대로, 위치만 조금 더 위로 */
+.ref-marquee{
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 18px) !important;
+}
+
+
+/* fixed white bottom safe area */
+/* 표시한 하단 영역: 스크롤되어도 항상 흰색으로 고정 */
+html,
+body{
+  background:#fff !important;
+}
+
+/* 기존 body::before/after 비활성화보다 뒤에서 다시 켬 */
+body::before{
+  content:"" !important;
+  display:block !important;
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  height:calc(env(safe-area-inset-bottom, 0px) + 24px) !important;
+  background:#fff !important;
+  pointer-events:none !important;
+  z-index:2999 !important;
+}
+
+/* 캡처방지 바는 흰색 고정 영역 위에 그대로 보이게 유지 */
+.ref-marquee{
+  z-index:3000 !important;
+}
+
+
+
+/* only highlighted card area scrolls as one block */
+/* 상단/하단은 고정, 노란색 표시한 카드 영역 전체가 하나로 스크롤 */
+html,
+body{
+  overflow:hidden !important;
+}
+
+.app{
+  overflow:hidden !important;
+}
+
+/* 헤더는 고정 */
+.header{
+  position:relative !important;
+  z-index:1200 !important;
+}
+
+/* 캡처방지 바는 고정 */
+.ref-marquee{
+  position:fixed !important;
+  z-index:3000 !important;
+}
+
+/* 스크롤은 카드 안이 아니라, 카드가 들어있는 화면 영역에서만 발생 */
+.screen{
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  height:calc(100dvh - var(--safe-top) - var(--header-h)) !important;
+  padding:var(--screen-top) var(--side) calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) + 44px) !important;
+}
+
+/* 카드 자체는 하나의 덩어리로 움직이게 유지 */
+.card{
+  overflow:hidden !important;
+  position:relative !important;
+}
+
+/* 카드 내부 구조 원래대로 복구 */
+.card-inner{
+  position:absolute !important;
+  inset:0 0 var(--bottom-h) 0 !important;
+  min-height:auto !important;
+  padding:0 !important;
+}
+
+/* 버튼도 카드 안에서 원래처럼 고정 */
+.bottom{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+}
+
 </style>
 
 </head>
