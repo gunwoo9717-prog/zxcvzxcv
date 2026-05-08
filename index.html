@@ -1012,6 +1012,64 @@ body{
   bottom:0 !important;
 }
 
+
+/* lower capture bar by 4px only */
+/* 캡처바 모양/크기 그대로, 기존보다 위치만 4px 아래로 */
+.ref-marquee{
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
+}
+
+
+/* move highlighted card block up slightly */
+/* 노란색 표시한 카드 덩어리 위치만 위로 살짝 */
+.screen{
+  padding-top:calc(var(--screen-top, 23px) - 8px) !important;
+}
+
+/* 카드 자체는 하나로 움직이고, 안쪽 내용/크기/캡처바는 그대로 */
+.card{
+  margin-top:0 !important;
+}
+
+
+/* reduce card size slightly */
+/* 카드 덩어리만 살짝 작게. 상단/캡처바/하단 흰 영역은 유지 */
+.card{
+  transform:scale(0.965) !important;
+  transform-origin:top center !important;
+}
+
+/* 카드가 줄어든 만큼 위아래 여백이 너무 이상하지 않게 */
+.screen{
+  padding-top:calc(var(--screen-top, 23px) - 6px) !important;
+}
+
+
+
+/* shrink bottom capture bar text and height */
+/* 너무 작았던 하단 캡처바를 살짝 키움 */
+.ref-marquee{
+  height:35px !important;
+  min-height:0 !important;
+  max-height:35px !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  align-items:center !important;
+}
+
+/* 글자도 살짝 키움 */
+.ref-marquee-text{
+  font-size:11.3px !important;
+  line-height:35px !important;
+  height:35px !important;
+}
+
+/* 아래 연장선 제거 유지 */
+.ref-marquee::after{
+  display:none !important;
+  content:none !important;
+}
+
 </style>
 
 </head>
