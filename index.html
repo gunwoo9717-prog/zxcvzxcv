@@ -739,6 +739,34 @@ body,
   content:none !important;
 }
 
+
+/* capturebar bottom length like photo 1 only */
+/* 캡처바 모양/글씨/높이는 그대로 두고, 1번 사진처럼 아래 길이만 연장 */
+.ref-marquee{
+  height:var(--notice-h, 38px) !important;
+  min-height:0 !important;
+  max-height:var(--notice-h, 38px) !important;
+  overflow:visible !important;
+}
+
+/* 실제 캡처바 아래쪽에 같은 그라데이션만 26px 추가 */
+.ref-marquee::after{
+  content:"" !important;
+  display:block !important;
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  top:100% !important;
+  height:26px !important;
+  background:linear-gradient(90deg,#30c4ee 0%,#4177ff 55%,#8457ff 100%) !important;
+  pointer-events:none !important;
+}
+
+.ref-marquee-text{
+  position:relative !important;
+  z-index:1 !important;
+}
+
 </style>
 
 </head>
