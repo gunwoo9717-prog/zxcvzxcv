@@ -706,6 +706,39 @@ body{
   z-index:3000 !important;
 }
 
+
+/* desired iphone bottom spacing like screenshot 2 */
+/* 내부 카드/내용물/캡처방지 글씨 크기 변경 없음.
+   아이폰에서 캡처방지 바 위치만 두 번째 사진처럼 아래로 내림. */
+.ref-marquee{
+  position:fixed !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  bottom:calc(env(safe-area-inset-bottom, 0px) * 0.34) !important;
+  width:100vw !important;
+  max-width:430px !important;
+  height:var(--notice-h, 38px) !important;
+  min-height:0 !important;
+  max-height:var(--notice-h, 38px) !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  display:flex !important;
+  align-items:center !important;
+  z-index:3000 !important;
+}
+
+/* 바 아래쪽 흰 여백이 넓게 보이지 않게, 앱 배경은 화면 끝까지 유지 */
+html,
+body,
+.app{
+  background:linear-gradient(180deg,#e9eefc 0%,#dfe5fb 72%,#d8defb 100%) !important;
+}
+
+.ref-marquee::after{
+  display:none !important;
+  content:none !important;
+}
+
 </style>
 
 </head>
