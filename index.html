@@ -1070,6 +1070,73 @@ body{
   content:none !important;
 }
 
+
+
+
+
+/* detail arrow truly outside card fixed */
+/* 카드 밖, 화면에 고정된 화살표 버튼 */
+.global-detail-back-arrow{
+  position:fixed !important;
+  left:calc(50% - min(50vw, 215px) + 30px) !important;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 106px) !important;
+
+  width:36px !important;
+  height:36px !important;
+  min-width:36px !important;
+  min-height:36px !important;
+
+  border:0 !important;
+  border-radius:999px !important;
+  background:rgba(241,244,250,0.98) !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04) !important;
+  z-index:9999 !important;
+  cursor:pointer !important;
+  -webkit-backdrop-filter:blur(2px) !important;
+  backdrop-filter:blur(2px) !important;
+
+  /* 글자는 숨기고 아이콘을 SVG로 중앙 배치 */
+  color:transparent !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  text-indent:-9999px !important;
+  overflow:hidden !important;
+}
+
+.global-detail-back-arrow::before{
+  content:"" !important;
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  width:14px !important;
+  height:14px !important;
+  transform:translate(-50%, -50%) !important;
+  background-repeat:no-repeat !important;
+  background-position:center !important;
+  background-size:14px 14px !important;
+  background-image:url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+<path d='M14.5 5L8 11.5L14.5 18' fill='none' stroke='%23535a69' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/>\
+</svg>") !important;
+}
+
+/* 두 번째 화면에서만 표시 */
+body:has(#detailScreen.active) .global-detail-back-arrow{
+  display:flex !important;
+}
+
+/* 첫 번째 화면 버튼은 원래대로 */
+#mainScreen .bottom{
+  background:#1550e8 !important;
+  color:#fff !important;
+}
+
 </style>
 
 </head>
@@ -1172,10 +1239,10 @@ body{
           <div id="time2" class="time"></div>
         </div>
       </div>
-      <div id="toMain" class="bottom">QR정보 표시</div>
-    </div>
+</div>
   </div>
 </div>
+<button id="toMain" class="global-detail-back-arrow" type="button" aria-label="QR정보 표시">‹</button>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
