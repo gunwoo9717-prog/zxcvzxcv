@@ -1310,6 +1310,29 @@ body{
   padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) + 12px) !important;
 }
 
+
+/* photo slightly smaller in card */
+/* 카드 안 사진만 살짝 축소 */
+.photo{
+  width:calc(var(--photo-w) - 4px) !important;
+  height:calc(var(--photo-h) - 5px) !important;
+}
+
+
+/* title slightly lower and edit menu higher */
+/* 주민등록증모바일확인서비스는 살짝 아래로 */
+.title{
+  transform:translateY(1px) !important;
+}
+
+/* 수정 메뉴는 조금 위로 */
+#menuPanel{
+  padding-top:calc(8px + env(safe-area-inset-top)) !important;
+}
+#menuPanel h3{
+  margin-top:0 !important;
+}
+
 </style>
 
 </head>
