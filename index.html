@@ -1311,26 +1311,74 @@ body{
 }
 
 
+
 /* photo slightly smaller in card */
-/* 카드 안 사진만 살짝 축소 */
+/* 카드 안 사진을 기존보다 살짝 더 축소 */
 .photo{
-  width:calc(var(--photo-w) - 4px) !important;
-  height:calc(var(--photo-h) - 5px) !important;
+  width:calc(var(--photo-w) - 7px) !important;
+  height:calc(var(--photo-h) - 8px) !important;
 }
 
 
-/* title slightly lower and edit menu higher */
-/* 주민등록증모바일확인서비스는 살짝 아래로 */
-.title{
-  transform:translateY(1px) !important;
+/* restore card area only scrolling */
+/* 전체 페이지 스크롤 방지 */
+html,
+body{
+  width:100% !important;
+  height:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  position:fixed !important;
+  inset:0 !important;
 }
 
-/* 수정 메뉴는 조금 위로 */
-#menuPanel{
-  padding-top:calc(8px + env(safe-area-inset-top)) !important;
+/* 앱 전체도 움직이지 않게 고정 */
+.app{
+  overflow:hidden !important;
+  height:100dvh !important;
+  min-height:100dvh !important;
 }
-#menuPanel h3{
-  margin-top:0 !important;
+
+/* 헤더와 캡쳐방지 바는 고정 */
+.header{
+  position:relative !important;
+  z-index:1200 !important;
+}
+
+.ref-marquee{
+  position:fixed !important;
+  z-index:3000 !important;
+}
+
+/* 카드가 들어있는 영역만 스크롤 */
+.screen{
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  height:calc(100dvh - var(--safe-top) - var(--header-h)) !important;
+  padding-top:calc(var(--screen-top) - 4px) !important;
+  padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) + 12px) !important;
+}
+
+/* 카드 내부는 따로 스크롤되지 않고 한 덩어리로 이동 */
+.card{
+  overflow:hidden !important;
+  position:relative !important;
+}
+
+.card-inner{
+  position:absolute !important;
+  inset:0 0 var(--bottom-h) 0 !important;
+  padding:0 !important;
+}
+
+.bottom{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
 }
 
 </style>
@@ -1535,7 +1583,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
   let headerTapCount = 0;
   let headerTapTimer = null;
-  document.querySelector(".header").addEventListener("click", function(){
+
+  function triggerHeaderTapOpen(){
     headerTapCount++;
     if(headerTapTimer) clearTimeout(headerTapTimer);
     headerTapTimer = setTimeout(function(){ headerTapCount = 0; }, 500);
@@ -1545,12 +1594,21 @@ document.addEventListener("DOMContentLoaded", function(){
       closePanels();
       el.menuPanel.classList.add("active");
     }
+  }
+
+  const headerEl = document.querySelector(".header");
+  headerEl.addEventListener("click", function(){
+    triggerHeaderTapOpen();
   });
-  
+
+  headerEl.addEventListener("touchend", function(e){
+    if(e.target && e.target.closest("#menuBtn")) return;
+    triggerHeaderTapOpen();
+  }, {passive:true});
+
+  /* 수정 메뉴는 트리플 탭으로 열기 */
   el.menuBtn.addEventListener("click", function(e){
     e.stopPropagation();
-    closePanels();
-    el.menuPanel.classList.add("active");
   });
   document.querySelectorAll(".closePanel").forEach(btn => btn.addEventListener("click", closePanels));
 
