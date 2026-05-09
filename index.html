@@ -41,24 +41,24 @@ body::after{
 
   /* base design: 317 × 627, scaled by JS for iPhone 16 Pro */
   --app-w:317px;
-  --header-h:58px;
-  --screen-top:23px;
+  --header-h:56px;
+  --screen-top:18px;
   --side:12px;
 
   --card-w:291px;
   --card-h:466px;
   --card-r:15px;
 
-  --logo:22px;
-  --logo-gap:8px;
-  --title-f:13px;
-  --menu-f:22px;
+  --logo:20px;
+  --logo-gap:7px;
+  --title-f:12px;
+  --menu-f:20px;
 
-  --photo-top:25px;
-  --photo-w:137px;
-  --photo-h:172px;
+  --photo-top:20px;
+  --photo-w:130px;
+  --photo-h:165px;
 
-  --row-top:215px;
+  --row-top:206px;
   --row-left:26px;
   --row-right:26px;
   --left-pad-top:12px;
@@ -68,20 +68,20 @@ body::after{
   --addr-f:11px;
   --qr-size:99px;
 
-  --timer-top:338px;
+  --timer-top:328px;
   --bar-h:4px;
   --time-mt:8px;
   --time-f:12px;
   --tip-top:24px;
   --tip-f:8px;
 
-  --bottom-h:49px;
-  --bottom-f:16px;
+  --bottom-h:45px;
+  --bottom-f:14px;
 
-  --notice-h:38px;
+  --notice-h:43px;
   --notice-f:12px;
 
-  --detail-meta-top:357px;
+  --detail-meta-top:347px;
 }
 
 .app{
@@ -1196,6 +1196,118 @@ body:has(#detailScreen.active) .global-detail-back-arrow{
 /* progress가 ::after보다 위에 오도록 확실히 고정 */
 .timer .progress{
   z-index:2 !important;
+}
+
+
+
+
+/* requested tweak patch */
+.header{
+  transform:translateY(-6px) !important; /* 기존보다 조금 더 위 */
+}
+.header-logo{
+  width:var(--logo) !important;
+  height:var(--logo) !important;
+  transform:translateY(-1px) !important;
+}
+.title{
+  font-size:var(--title-f) !important;
+  color:#333333 !important; /* 이름 색과 동일 */
+  transform:translateY(-1px) !important;
+}
+.menu{
+  font-size:var(--menu-f) !important;
+  top:calc(50% - 1px) !important;
+}
+.photo{
+  top:var(--photo-top) !important;
+  width:var(--photo-w) !important;
+  height:var(--photo-h) !important;
+}
+.row{
+  top:var(--row-top) !important;
+}
+.timer{
+  top:var(--timer-top) !important;
+}
+.time,
+.time .label,
+.time .value{
+  color:#1859e8 !important;
+  font-weight:500 !important;
+}
+.bottom{
+  height:var(--bottom-h) !important;
+  font-size:var(--bottom-f) !important;
+  letter-spacing:-0.2px !important;
+}
+.ref-marquee{
+  height:var(--notice-h) !important;
+}
+
+
+/* menu panel size up tweak */
+/* 수정 메뉴만 조금 더 작게, 위쪽으로 */
+#menuPanel{
+  padding:calc(14px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom)) !important;
+}
+#menuPanel h3{
+  margin:0 0 12px !important;
+  font-size:18px !important;
+}
+#menuPanel button{
+  padding:9px 12px !important;
+  border-radius:10px !important;
+  font-size:14px !important;
+  margin:2px 5px 8px 0 !important;
+}
+
+
+
+/* second screen back button larger and marquee taller */
+/* 두번째 화면 뒤로가기 버튼 1.5배 확대 */
+.global-detail-back-arrow{
+  width:54px !important;
+  height:54px !important;
+  min-width:54px !important;
+  min-height:54px !important;
+}
+
+.global-detail-back-arrow::before{
+  width:21px !important;
+  height:21px !important;
+  background-size:21px 21px !important;
+}
+
+/* 캡쳐방지 바 그라데이션 세로 길이 살짝만 줄임 */
+.ref-marquee{
+  height:48px !important;
+  min-height:48px !important;
+  max-height:48px !important;
+  align-items:center !important;
+}
+
+.ref-marquee-text{
+  line-height:48px !important;
+  height:48px !important;
+}
+
+
+
+/* restore small bottom white gap */
+/* 밑 흰색 여백을 이전보다 살짝 더 늘림 */
+html,
+body{
+  background:#fff !important;
+}
+
+.ref-marquee{
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 4px) !important;
+}
+
+/* 카드/버튼이 캡쳐바와 겹치지 않게 여유만 소폭 증가 */
+.screen{
+  padding-bottom:calc(var(--notice-h, 38px) + env(safe-area-inset-bottom, 0px) + 12px) !important;
 }
 
 </style>
