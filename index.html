@@ -1319,6 +1319,30 @@ body{
   height:calc(var(--photo-h) - 8px) !important;
 }
 
+
+/* final header down triple tap fixed photo smaller */
+/* 주민등록증모바일확인서비스 + 옆 로고 사진 살짝 아래 */
+.header-logo{
+  transform:translateY(3px) !important;
+}
+.title{
+  transform:translateY(3px) !important;
+}
+
+/* 카드 안 사진 살짝만 더 축소 */
+.photo{
+  width:calc(var(--photo-w) - 11px) !important;
+  height:calc(var(--photo-h) - 12px) !important;
+}
+
+/* 수정 메뉴 위치: 너무 내려오지 않게 위쪽으로 안정화 */
+#menuPanel{
+  padding-top:calc(8px + env(safe-area-inset-top)) !important;
+}
+#menuPanel h3{
+  margin-top:0 !important;
+}
+
 </style>
 
 </head>
@@ -1521,33 +1545,50 @@ document.addEventListener("DOMContentLoaded", function(){
 
   let headerTapCount = 0;
   let headerTapTimer = null;
+  let lastTripleTapEvent = 0;
 
-  function triggerHeaderTapOpen(){
+  function openEditMenuByTripleTap(){
+    closePanels();
+    el.menuPanel.classList.add("active");
+  }
+
+  function countTripleTap(e){
+    if(e){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    const now = Date.now();
+    /* iPhone에서 touchend 뒤 click이 한 번 더 들어오는 중복 방지 */
+    if(now - lastTripleTapEvent < 120) return;
+    lastTripleTapEvent = now;
+
     headerTapCount++;
     if(headerTapTimer) clearTimeout(headerTapTimer);
-    headerTapTimer = setTimeout(function(){ headerTapCount = 0; }, 500);
+
+    headerTapTimer = setTimeout(function(){
+      headerTapCount = 0;
+    }, 650);
+
     if(headerTapCount >= 3){
       headerTapCount = 0;
-      clearTimeout(headerTapTimer);
-      closePanels();
-      el.menuPanel.classList.add("active");
+      if(headerTapTimer) clearTimeout(headerTapTimer);
+      openEditMenuByTripleTap();
     }
   }
 
-  const headerEl = document.querySelector(".header");
-  headerEl.addEventListener("click", function(){
-    triggerHeaderTapOpen();
-  });
+  const tripleTapArea = document.querySelector(".header");
+  if(tripleTapArea){
+    tripleTapArea.addEventListener("pointerup", countTripleTap, {passive:false});
+    tripleTapArea.addEventListener("touchend", countTripleTap, {passive:false});
+    tripleTapArea.addEventListener("click", countTripleTap, false);
+  }
 
-  headerEl.addEventListener("touchend", function(e){
-    if(e.target && e.target.closest("#menuBtn")) return;
-    triggerHeaderTapOpen();
-  }, {passive:true});
-
-  /* 수정 메뉴는 트리플 탭으로 열기 */
-  el.menuBtn.addEventListener("click", function(e){
-    e.stopPropagation();
-  });
+  if(el.menuBtn){
+    el.menuBtn.addEventListener("pointerup", countTripleTap, {passive:false});
+    el.menuBtn.addEventListener("touchend", countTripleTap, {passive:false});
+    el.menuBtn.addEventListener("click", countTripleTap, false);
+  }
   document.querySelectorAll(".closePanel").forEach(btn => btn.addEventListener("click", closePanels));
 
   el.openMainEdit.addEventListener("click", function(){
