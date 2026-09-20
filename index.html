@@ -147,6 +147,23 @@ body{
   -webkit-tap-highlight-color:transparent;
 }
 #mobileConfirmLink:focus{outline:none;}
+
+/* Momentary pressed-state overlay, matched to the provided reference.
+   The button keeps its full hit target, while only the inner card area is dimmed. */
+#mobileConfirmLink::after{
+  content:"";
+  position:absolute;
+  inset:12% 5.05% 18% 5.05%;
+  border-radius:15px;
+  background:rgba(0,0,0,.27);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 28ms linear;
+}
+#mobileConfirmLink:active::after,
+#mobileConfirmLink.tap-pressed::after{
+  opacity:1;
+}
 </style>
 
 
@@ -1225,5 +1242,31 @@ html.startup-active body {
 </script>
 
 <!-- all-functions-audit-2026-09-20: back hit-target + pointer/click de-dup fix; no visual geometry changes -->
+
+<script id="mobile-confirm-press-feedback">
+(function(){
+  const hit = document.getElementById('mobileConfirmLink');
+  if(!hit) return;
+  let releaseTimer = 0;
+
+  function press(){
+    clearTimeout(releaseTimer);
+    hit.classList.add('tap-pressed');
+  }
+  function release(){
+    clearTimeout(releaseTimer);
+    releaseTimer = setTimeout(function(){
+      hit.classList.remove('tap-pressed');
+    }, 70);
+  }
+
+  /* Visual feedback only. Existing click/touch navigation logic is untouched. */
+  hit.addEventListener('pointerdown', press, {passive:true});
+  hit.addEventListener('pointerup', release, {passive:true});
+  hit.addEventListener('pointercancel', release, {passive:true});
+  hit.addEventListener('pointerleave', release, {passive:true});
+})();
+</script>
+
 </body>
 </html>
