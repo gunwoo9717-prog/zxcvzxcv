@@ -609,6 +609,48 @@ body.passcode-open{
   top:0 !important;
 }
 </style>
+
+<style id="passcode-island-exact-reference-fix">
+/* Exact vertical match to the supplied iPhone 16 Pro reference.
+   iOS standalone already reserves roughly 64 CSS px for the system status area.
+   The reference adds ~60 CSS px of WHITE space before the blue passcode header.
+   Keeping pc-app bottom at 0 means the keypad stays anchored in the same place;
+   only the flexible white content area becomes shorter, matching the reference. */
+html.passcode-status-white,
+html.passcode-status-white body,
+body.passcode-open,
+#passcodeScreen {
+  background:#ffffff !important;
+}
+
+/* The old 1px sampler did not affect the iOS compositor. Disable it. */
+#iosStatusSampler {
+  display:none !important;
+}
+
+/* Remove all competing pseudo safe-area layers. */
+body.passcode-open::before,
+#passcodeScreen::before {
+  display:none !important;
+  content:none !important;
+  height:0 !important;
+}
+
+/* Critical fix: expose a real 60px white band above the passcode app.
+   On the user's iPhone 16 Pro this puts the blue header at the same Y position
+   as the reference screenshot and makes the Dynamic Island/status area white. */
+#passcodeScreen .pc-app {
+  position:absolute !important;
+  inset:60px 0 0 0 !important;
+  top:60px !important;
+  right:0 !important;
+  bottom:0 !important;
+  left:0 !important;
+  height:auto !important;
+  background:#ffffff !important;
+}
+</style>
+
 </head>
 <body>
 <div id="iosStatusSampler" aria-hidden="true"></div>
