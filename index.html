@@ -440,6 +440,51 @@ body.passcode-open > .demo{
 
 
 
+
+
+
+<style id="passcode-statusbar-hard-fix">
+:root{--pc-safe-top:59px;}
+
+/* 비밀번호 화면 상단(시간/다이나믹 아일랜드) 전용 흰색 영역 */
+#passcodeScreen .pc-status-white{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:var(--pc-safe-top);
+  background:#ffffff !important;
+  z-index:2147483645;
+  pointer-events:none;
+}
+
+/* 비밀번호 화면 본문은 흰색 상태바 바로 아래부터 시작 */
+#passcodeScreen .pc-app{
+  top:var(--pc-safe-top) !important;
+  right:0 !important;
+  bottom:0 !important;
+  left:0 !important;
+  inset:auto 0 0 0 !important;
+  height:calc(100dvh - var(--pc-safe-top)) !important;
+  background:#ffffff !important;
+}
+
+#passcodeScreen{
+  background:#ffffff !important;
+}
+
+#passcodeScreen::before{display:none !important;}
+
+/* iPhone 16 Pro / 홈 화면 실행 시에도 59px 이상 흰색 확보 */
+@supports (padding-top: env(safe-area-inset-top)){
+  :root{--pc-safe-top:max(59px, env(safe-area-inset-top));}
+}
+
+html.passcode-status-white,
+html.passcode-status-white body{
+  background:#ffffff !important;
+}
+</style>
 <style id="passcode-reference-header-override">
 /* Password screen header matched to the user's reference image (IMG_6323). */
 #passcodeScreen .pc-header{
@@ -531,6 +576,7 @@ body.passcode-open > .demo{
 
 
 <section id="passcodeScreen" aria-hidden="true">
+  <div class="pc-status-white" aria-hidden="true"></div>
   <div class="pc-app">
     <header class="pc-header">
       <button class="pc-back" id="pcBack" type="button" aria-label="뒤로가기">◀</button>
@@ -597,6 +643,9 @@ body.passcode-open > .demo{
     screen.classList.add('show');
     screen.setAttribute('aria-hidden','false');
     document.body.classList.add('passcode-open');
+    document.documentElement.classList.add('passcode-status-white');
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if(themeMeta) themeMeta.setAttribute('content','#ffffff');
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0);
@@ -606,6 +655,7 @@ body.passcode-open > .demo{
     screen.classList.remove('show');
     screen.setAttribute('aria-hidden','true');
     document.body.classList.remove('passcode-open');
+    document.documentElement.classList.remove('passcode-status-white');
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     enteredCount = 0;
@@ -691,6 +741,9 @@ body.passcode-open > .demo{
     screen.classList.add('show');
     screen.setAttribute('aria-hidden','false');
     document.body.classList.add('passcode-open');
+    document.documentElement.classList.add('passcode-status-white');
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if(themeMeta) themeMeta.setAttribute('content','#ffffff');
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     window.scrollTo(0,0);
