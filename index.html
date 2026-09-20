@@ -142,10 +142,17 @@ body{
 
 <style id="passcode-demo-screen-style">
 #passcodeScreen{
-  position:fixed;
-  inset:0;
-  z-index:2147483000;
+  /* IMPORTANT: this is intentionally a normal-flow page, NOT a fixed overlay.
+     iOS was tinting the native status-bar from the still-laid-out blue page
+     underneath the fixed overlay. */
+  position:relative;
+  z-index:1;
   display:none;
+  width:100%;
+  height:100dvh;
+  min-height:100vh;
+  margin:0;
+  padding:0;
   background:#fff;
   color:#151515;
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
@@ -154,16 +161,13 @@ body{
 }
 #passcodeScreen.show{display:block}
 
-
 .pc-app{
-  /* Same top structure as the working QR/detail screen:
-     the app starts at viewport top, and safe-area is INTERNAL padding. */
-  position:absolute;
-  inset:0;
+  position:relative;
   width:100%;
   height:100%;
   min-height:0;
-  padding-top:env(safe-area-inset-top,0px);
+  margin:0;
+  padding:0;
   background:#fff;
   display:flex;
   flex-direction:column;
@@ -350,8 +354,7 @@ body{
 
 /* Keep the visible non-official marker over every demo screen. */
 body.passcode-open > .demo{
-  z-index:2147483647 !important;
-  color:#111 !important;
+  display:none !important;
 }
 @media (max-height:760px){
   .pc-main{padding-top:20px}
@@ -407,59 +410,67 @@ body.passcode-open > .demo{
 }
 </style>
 
-<style id="passcode-structure-single-source">
-/* Final single-source passcode layout: no duplicated safe-area spacer/pseudo layers. */
-:root{ color-scheme:light; }
-html,body{
+
+<style id="passcode-native-statusbar-white-final">
+/* Single authoritative passcode/status-bar rules.
+   The ordinary Government24 page is REMOVED from layout while the passcode page is open.
+   That prevents its #eff2f6 background from being sampled by iOS behind the native status bar. */
+html, body {
   background:#ffffff !important;
 }
 body.passcode-open{
+  margin:0 !important;
+  padding:0 !important;
+  width:100% !important;
+  height:100dvh !important;
+  min-height:100vh !important;
   background:#ffffff !important;
   overflow:hidden !important;
+  overscroll-behavior:none !important;
 }
+/* Critical fix: display:none, NOT visibility:hidden. */
 body.passcode-open > main.page{
-  visibility:hidden !important;
+  display:none !important;
+}
+body.passcode-open > .to-top{
+  display:none !important;
+}
+#passcodeScreen::before,
+#passcodeScreen::after,
+#passcodeScreen .pc-app::before,
+#passcodeScreen .pc-app::after{
+  content:none !important;
+  display:none !important;
 }
 #passcodeScreen{
-  position:fixed !important;
-  inset:0 !important;
+  position:relative !important;
+  inset:auto !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:100% !important;
+  height:100dvh !important;
+  min-height:100vh !important;
+  margin:0 !important;
   padding:0 !important;
   background:#ffffff !important;
   overflow:hidden !important;
 }
 #passcodeScreen .pc-app{
-  position:absolute !important;
-  inset:0 !important;
+  position:relative !important;
+  inset:auto !important;
   width:100% !important;
   height:100% !important;
-  padding-top:env(safe-area-inset-top,0px) !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
   background:#ffffff !important;
   overflow:hidden !important;
 }
-#passcodeScreen .pc-header,
-#passcodeScreen .pc-main,
-#passcodeScreen .pc-keypad{
-  position:relative !important;
-  z-index:2 !important;
-}
 </style>
-
-<style id="ios-status-sampler-style">
-#iosStatusSampler{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:1px;
-  background:#ffffff;
-  z-index:2147483647;
-  pointer-events:none;
-}
-</style>
-
 </head>
 <body>
-<div id="iosStatusSampler" aria-hidden="true"></div>
 <div class="demo">DEMO · 비공식 목업</div>
 
 <main class="page">
