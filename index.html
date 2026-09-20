@@ -13,7 +13,7 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#eaeef4">
+<meta name="theme-color" content="#eef2f6">
 <title>정부24 비공식 화면 데모</title>
 <style>
 *{box-sizing:border-box}
@@ -492,15 +492,18 @@ html.startup-skip #startupSplash{display:none !important;}
 /* Startup splash matched to supplied recording: exact center, scale and background. */
 html.startup-active,
 html.startup-active body {
-  background:#eaeef4 !important;
+  background:#eef2f6 !important;
   overflow:hidden !important;
 }
 #startupSplash {
   position:fixed;
-  inset:0;
+  top:calc(0px - env(safe-area-inset-top, 0px));
+  right:0;
+  bottom:0;
+  left:0;
   z-index:2147483646;
   display:block;
-  background:#eaeef4;
+  background:#eef2f6;
   overflow:hidden;
   opacity:1;
   visibility:visible;
@@ -587,6 +590,13 @@ html.startup-active body {
   57%      {opacity:.15; stroke-dasharray:5 355; transform:rotate(100deg)}
   59%,100% {opacity:0; stroke-dasharray:0 360; transform:rotate(100deg)}
 }
+</style>
+<style id="startup-1to1-audit-marker">
+/* 2026-09-20 3-pass audit:
+   - visual center aligned to full physical screen via negative top safe-area
+   - ring/core geometry retained after pixel-radius check
+   - startup source background calibrated against supplied reference recording
+   - original ring timing preserved; only geometry/color corrections applied */
 </style>
 </head>
 <body>
