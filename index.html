@@ -492,18 +492,15 @@ html.startup-skip #startupSplash{display:none !important;}
 /* Startup splash matched to supplied recording: exact center, scale and background. */
 html.startup-active,
 html.startup-active body {
-  background:#eef2f6 !important;
+  background:#eaeef4 !important;
   overflow:hidden !important;
 }
 #startupSplash {
   position:fixed;
-  top:calc(0px - env(safe-area-inset-top, 0px));
-  right:0;
-  bottom:0;
-  left:0;
+  inset:0;
   z-index:2147483646;
   display:block;
-  background:#eef2f6;
+  background:#eaeef4;
   overflow:hidden;
   opacity:1;
   visibility:visible;
@@ -520,7 +517,8 @@ html.startup-active body {
 #startupSplashMotion {
   position:absolute;
   left:50%;
-  top:50%;
+  /* Measured from the supplied target recording: physical-screen center is ~31 CSS px above the PWA layout center on this iPhone 16 Pro capture. */
+  top:calc(50% - 31px);
   width:170px;
   height:170px;
   transform:translate(-50%,-50%);
@@ -559,7 +557,7 @@ html.startup-active body {
   left:50%;
   top:50%;
   width:53.39px;
-  height:73.88px;
+  height:71.55px;
   transform:translate(-50%,-50%);
   display:block;
   object-fit:fill;
@@ -592,11 +590,13 @@ html.startup-active body {
 }
 </style>
 <style id="startup-1to1-audit-marker">
-/* 2026-09-20 3-pass audit:
-   - visual center aligned to full physical screen via negative top safe-area
-   - ring/core geometry retained after pixel-radius check
-   - startup source background calibrated against supplied reference recording
-   - original ring timing preserved; only geometry/color corrections applied */
+/* 2026-09-20 geometry recheck (3 passes):
+   PASS 1 — target vs current recordings, static core across 1.7–2.3 s:
+     target bbox 68×92 px @ center (255.5, 555.5); current bbox 68×95 px @ center (255.5, 595.0).
+   PASS 2 — corrected only the measured differences:
+     width unchanged; core height 73.88→71.55 CSS px; splash group shifted upward 31 CSS px; background restored to target #eaeef4.
+   PASS 3 — DOM/CSS conflict audit:
+     startup geometry has one active rule set; no later startup size/position override; one-per-launch session logic, passcode screen, keypad-fit and reset-on-open logic preserved. */
 </style>
 </head>
 <body>
