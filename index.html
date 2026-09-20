@@ -7,7 +7,9 @@
 <title>정부24 비공식 화면 데모</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#eff2f6}
+html{background-color:#ffffff !important;color-scheme:light;}
+body{background-color:#ffffff !important;}
+html,body{margin:0;padding:0;background:#ffffff}
 body{
   min-height:100vh;
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
@@ -116,88 +118,6 @@ body{
 </style>
 
 
-<style>
-/* iPhone 홈 화면(standalone) 실행 시 상단 시간/다이내믹 아일랜드 영역을 흰색으로 고정 */
-@media (display-mode: standalone) {
-  html {
-    background: #ffffff !important;
-  }
-
-  body {
-    padding-top: env(safe-area-inset-top) !important;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: env(safe-area-inset-top);
-    background: #ffffff;
-    z-index: 2147483647;
-    pointer-events: none;
-  }
-
-  /* 상단 DEMO 표시는 흰색 상태바 아래에서 시작 */
-  .demo {
-    top: calc(env(safe-area-inset-top) + 7px) !important;
-  }
-}
-</style>
-
-
-<style id="ios-white-statusbar-fix">
-/* iPhone 홈 화면 실행: 상태바(시간/다이내믹 아일랜드) 배경을 흰색으로 */
-html,
-body {
-  background: #ffffff !important;
-}
-
-body {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* 실제 앱 화면 배경은 기존 회색 유지 */
-.page {
-  background: #eff2f6 !important;
-}
-
-/* standalone에서 상단 safe-area 자체를 흰색으로 확보 */
-@media (display-mode: standalone) {
-  html,
-  body {
-    background: #ffffff !important;
-  }
-
-  body {
-    padding-top: env(safe-area-inset-top) !important;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    z-index: 2147483647;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: env(safe-area-inset-top);
-    background: #ffffff !important;
-    pointer-events: none;
-  }
-
-  .page {
-    background: #eff2f6 !important;
-  }
-
-  .demo {
-    top: calc(env(safe-area-inset-top) + 7px) !important;
-  }
-}
-</style>
-
-
 <style id="mobile-confirm-link-style">
 /* 정부24 이미지 속 '주민등록 모바일 확인 서비스' 카드의 클릭 영역 */
 #mobileConfirmLink{
@@ -248,19 +168,6 @@ body {
   display:flex;
   flex-direction:column;
   overflow:hidden;
-}
-
-/* Paint only the real iOS safe-area white. This layer takes NO layout space. */
-.pc-app::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:env(safe-area-inset-top,0px);
-  background:#fff;
-  z-index:4;
-  pointer-events:none;
 }
 
 .pc-header{
@@ -501,20 +408,18 @@ body.passcode-open > .demo{
 </style>
 
 <style id="passcode-structure-single-source">
-/* Single source of truth for the passcode top area. No px spacer, no duplicate safe-area. */
-html.passcode-status-white,
-html.passcode-status-white body,
-body.passcode-open{
+/* Final single-source passcode layout: no duplicated safe-area spacer/pseudo layers. */
+:root{ color-scheme:light; }
+html,body{
   background:#ffffff !important;
 }
-
-/* The underlying Government24 screenshot is irrelevant while the overlay is open.
-   Hiding it prevents iOS from borrowing its pale-blue top color. */
+body.passcode-open{
+  background:#ffffff !important;
+  overflow:hidden !important;
+}
 body.passcode-open > main.page{
   visibility:hidden !important;
 }
-
-/* Fixed overlays ignore body padding. Safe-area exists only as .pc-app padding-top. */
 #passcodeScreen{
   position:fixed !important;
   inset:0 !important;
@@ -522,27 +427,15 @@ body.passcode-open > main.page{
   background:#ffffff !important;
   overflow:hidden !important;
 }
-
 #passcodeScreen .pc-app{
   position:absolute !important;
   inset:0 !important;
+  width:100% !important;
+  height:100% !important;
   padding-top:env(safe-area-inset-top,0px) !important;
   background:#ffffff !important;
+  overflow:hidden !important;
 }
-
-#passcodeScreen .pc-app::before{
-  content:"" !important;
-  display:block !important;
-  position:absolute !important;
-  top:0 !important;
-  left:0 !important;
-  right:0 !important;
-  height:env(safe-area-inset-top,0px) !important;
-  background:#ffffff !important;
-  z-index:4 !important;
-  pointer-events:none !important;
-}
-
 #passcodeScreen .pc-header,
 #passcodeScreen .pc-main,
 #passcodeScreen .pc-keypad{
@@ -551,8 +444,22 @@ body.passcode-open > main.page{
 }
 </style>
 
+<style id="ios-status-sampler-style">
+#iosStatusSampler{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:1px;
+  background:#ffffff;
+  z-index:2147483647;
+  pointer-events:none;
+}
+</style>
+
 </head>
 <body>
+<div id="iosStatusSampler" aria-hidden="true"></div>
 <div class="demo">DEMO · 비공식 목업</div>
 
 <main class="page">
