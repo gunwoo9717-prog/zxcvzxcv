@@ -516,6 +516,58 @@ body.passcode-open > .demo{
 }
 </style>
 
+
+<style id="passcode-statusbar-final-fix">
+/* iPhone 16 Pro: 비밀번호 화면의 상태바/다이내믹 아일랜드 영역을 QR 화면과 같은 흰색 높이로 고정.
+   기존 safe-area + 추가 여백이 겹쳐 두 배로 커지지 않도록 passcode 화면이 직접 한 번만 확보한다. */
+body.passcode-open{
+  padding-top:0 !important;
+  background:#fff !important;
+}
+body.passcode-open::before{
+  display:none !important;
+}
+
+#passcodeScreen{
+  position:fixed !important;
+  inset:0 !important;
+  background:#fff !important;
+}
+
+#passcodeScreen::before{
+  content:"" !important;
+  display:block !important;
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  /* 402px 폭 iPhone에서 약 62px = 레퍼런스 상태바 높이 */
+  height:15.42vw !important;
+  min-height:59px !important;
+  max-height:62px !important;
+  background:#fff !important;
+  z-index:2147483500 !important;
+  pointer-events:none !important;
+}
+
+#passcodeScreen .pc-app{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  top:clamp(59px,15.42vw,62px) !important;
+  inset:auto 0 0 0 !important;
+  /* inset shorthand 뒤에 top을 다시 지정해야 iOS WebKit에서도 유지됨 */
+  top:clamp(59px,15.42vw,62px) !important;
+  background:#fff !important;
+}
+
+/* 상태바 색을 브라우저가 페이지에서 가져가는 경우에도 흰색 유지 */
+html.passcode-status-white,
+html.passcode-status-white body{
+  background:#fff !important;
+}
+</style>
 </head>
 <body>
 <div class="demo">DEMO · 비공식 목업</div>
