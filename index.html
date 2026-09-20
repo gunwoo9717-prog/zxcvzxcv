@@ -560,8 +560,58 @@ html.passcode-status-white body{
   background:#fff !important;
 }
 </style>
+
+<style id="ios26-statusbar-sampler-fix">
+/*
+  iOS 26 Home Screen(PWA) fix:
+  The system status-bar tint can be sampled from a REAL fixed element near the
+  top of the page. Pseudo-elements (body::before) are not reliable for this.
+  This 1px white sampler does not take layout space, so the password header
+  stays in exactly the same vertical position while the Dynamic Island area
+  remains white.
+*/
+#iosStatusSampler{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  width:100% !important;
+  height:1px !important;
+  min-height:1px !important;
+  background:#ffffff !important;
+  z-index:2147483647 !important;
+  pointer-events:none !important;
+  opacity:1 !important;
+  display:block !important;
+}
+
+/* Keep the passcode overlay itself white at its top edge, but do not add any
+   extra safe-area/padding. This prevents the old double-height white gap. */
+body.passcode-open,
+html.passcode-status-white,
+html.passcode-status-white body,
+#passcodeScreen{
+  background:#ffffff !important;
+}
+
+body.passcode-open{
+  padding-top:0 !important;
+}
+
+#passcodeScreen::before{
+  display:none !important;
+  content:none !important;
+  height:0 !important;
+}
+
+#passcodeScreen .pc-app{
+  inset:0 !important;
+  top:0 !important;
+}
+</style>
 </head>
 <body>
+<div id="iosStatusSampler" aria-hidden="true"></div>
 <div class="demo">DEMO · 비공식 목업</div>
 
 <main class="page">
