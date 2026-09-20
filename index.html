@@ -610,12 +610,11 @@ body.passcode-open{
 }
 </style>
 
-<style id="passcode-island-exact-reference-fix">
-/* Exact vertical match to the supplied iPhone 16 Pro reference.
-   iOS standalone already reserves roughly 64 CSS px for the system status area.
-   The reference adds ~60 CSS px of WHITE space before the blue passcode header.
-   Keeping pc-app bottom at 0 means the keypad stays anchored in the same place;
-   only the flexible white content area becomes shorter, matching the reference. */
+<style id="passcode-island-compact-final-fix">
+/* FINAL: keep the iOS status/Dynamic-Island area white without adding a tall gap.
+   The 60px offset was wrong here because iOS standalone already reserves the system
+   status area. We expose only a tiny real white strip at the top of the passcode
+   overlay so iOS samples white, while the blue header starts essentially immediately. */
 html.passcode-status-white,
 html.passcode-status-white body,
 body.passcode-open,
@@ -623,12 +622,8 @@ body.passcode-open,
   background:#ffffff !important;
 }
 
-/* The old 1px sampler did not affect the iOS compositor. Disable it. */
-#iosStatusSampler {
-  display:none !important;
-}
-
-/* Remove all competing pseudo safe-area layers. */
+/* Disable older competing layers. */
+#iosStatusSampler,
 body.passcode-open::before,
 #passcodeScreen::before {
   display:none !important;
@@ -636,13 +631,25 @@ body.passcode-open::before,
   height:0 !important;
 }
 
-/* Critical fix: expose a real 60px white band above the passcode app.
-   On the user's iPhone 16 Pro this puts the blue header at the same Y position
-   as the reference screenshot and makes the Dynamic Island/status area white. */
+/* A REAL element, not a pseudo-element: only 2 CSS px, so no visible tall band. */
+#passcodeStatusGuard {
+  display:block !important;
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  height:2px !important;
+  background:#ffffff !important;
+  z-index:2147483600 !important;
+  pointer-events:none !important;
+}
+
+/* The passcode app begins 2px below the viewport top. On a 3x iPhone this is only
+   ~6 physical pixels, instead of the previous 180px extra gap. */
 #passcodeScreen .pc-app {
   position:absolute !important;
-  inset:60px 0 0 0 !important;
-  top:60px !important;
+  inset:2px 0 0 0 !important;
+  top:2px !important;
   right:0 !important;
   bottom:0 !important;
   left:0 !important;
@@ -695,6 +702,7 @@ body.passcode-open::before,
 
 
 <section id="passcodeScreen" aria-hidden="true">
+  <div id="passcodeStatusGuard" aria-hidden="true"></div>
   <div class="pc-app">
     <header class="pc-header">
       <button class="pc-back" id="pcBack" type="button" aria-label="뒤로가기">◀</button>
