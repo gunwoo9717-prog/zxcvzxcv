@@ -103,7 +103,7 @@ body{
 <meta name="apple-mobile-web-app-title" content="정부24 DEMO">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#ffffff">
+
 <meta name="format-detection" content="telephone=no">
 <style>
 @media (display-mode: standalone) {
@@ -234,25 +234,38 @@ body {
 }
 #passcodeScreen.show{display:block}
 
-/* iPhone safe-area / status-bar background */
-#passcodeScreen::before{
-  content:"";
-  position:absolute;
-  left:0; right:0; top:0;
-  height:env(safe-area-inset-top,0px);
-  background:#fff;
-  z-index:1;
-}
 
 .pc-app{
+  /* Same top structure as the working QR/detail screen:
+     the app starts at viewport top, and safe-area is INTERNAL padding. */
   position:absolute;
-  inset:env(safe-area-inset-top,0px) 0 0 0;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-height:0;
+  padding-top:env(safe-area-inset-top,0px);
   background:#fff;
   display:flex;
   flex-direction:column;
-  min-height:0;
+  overflow:hidden;
 }
+
+/* Paint only the real iOS safe-area white. This layer takes NO layout space. */
+.pc-app::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:env(safe-area-inset-top,0px);
+  background:#fff;
+  z-index:4;
+  pointer-events:none;
+}
+
 .pc-header{
+  position:relative;
+  z-index:2;
   height:55px;
   min-height:55px;
   display:flex;
@@ -341,6 +354,8 @@ body {
 .pc-menu::after{top:21px}
 
 .pc-main{
+  position:relative;
+  z-index:2;
   flex:1 1 auto;
   min-height:0;
   padding:28px 25px 0;
@@ -388,6 +403,8 @@ body {
 
 /* Numeric keypad from the reference video */
 .pc-keypad{
+  position:relative;
+  z-index:2;
   flex:0 0 326px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -435,39 +452,6 @@ body.passcode-open > .demo{
   .pc-keypad{flex-basis:292px}
 }
 </style>
-
-
-
-
-
-
-
-
-
-<style id="passcode-statusbar-match-fix">
-/* QR/상세 화면과 동일하게: 인위적인 59px 여백 없이 iOS safe-area만 흰색으로 사용 */
-#passcodeScreen{
-  top:0 !important;
-  background:#ffffff !important;
-}
-#passcodeScreen::before{
-  display:block !important;
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0;
-  height:env(safe-area-inset-top,0px) !important;
-  background:#ffffff !important;
-  z-index:1;
-  pointer-events:none;
-}
-#passcodeScreen .pc-app{
-  position:absolute !important;
-  inset:env(safe-area-inset-top,0px) 0 0 0 !important;
-  height:auto !important;
-  background:#ffffff !important;
-}
-</style>
-
 <style id="passcode-reference-header-override">
 /* Password screen header matched to the user's reference image (IMG_6323). */
 #passcodeScreen .pc-header{
@@ -516,151 +500,59 @@ body.passcode-open > .demo{
 }
 </style>
 
-
-<style id="passcode-statusbar-final-fix">
-/* 비밀번호 화면 상단 수정:
-   iOS standalone(default 상태바)은 시스템이 이미 시간/다이내믹 아일랜드 영역을 확보한다.
-   여기에 safe-area 또는 59~62px를 한 번 더 더하면 비밀번호 화면에서만 흰 여백이 두 배가 된다.
-   따라서 passcode 화면은 추가 상단 여백을 0으로 두고, 시스템 상태바 배경만 흰색으로 유지한다. */
+<style id="passcode-structure-single-source">
+/* Single source of truth for the passcode top area. No px spacer, no duplicate safe-area. */
+html.passcode-status-white,
+html.passcode-status-white body,
 body.passcode-open{
-  padding-top:0 !important;
-  background:#fff !important;
-}
-body.passcode-open::before{
-  display:none !important;
+  background:#ffffff !important;
 }
 
+/* The underlying Government24 screenshot is irrelevant while the overlay is open.
+   Hiding it prevents iOS from borrowing its pale-blue top color. */
+body.passcode-open > main.page{
+  visibility:hidden !important;
+}
+
+/* Fixed overlays ignore body padding. Safe-area exists only as .pc-app padding-top. */
 #passcodeScreen{
   position:fixed !important;
   inset:0 !important;
-  background:#fff !important;
+  padding:0 !important;
+  background:#ffffff !important;
+  overflow:hidden !important;
 }
 
-/* 기존 safe-area 가상 여백 완전 제거 */
-#passcodeScreen::before{
-  display:none !important;
-  content:none !important;
-  height:0 !important;
-}
-
-/* 헤더가 시스템 상태바 바로 아래에서 시작하도록 추가 오프셋 제거 */
 #passcodeScreen .pc-app{
   position:absolute !important;
   inset:0 !important;
-  top:0 !important;
-  right:0 !important;
-  bottom:0 !important;
-  left:0 !important;
-  background:#fff !important;
-}
-
-/* 상태바가 페이지 배경색을 참조하는 경우에도 흰색 유지 */
-html.passcode-status-white,
-html.passcode-status-white body{
-  background:#fff !important;
-}
-</style>
-
-<style id="ios26-statusbar-sampler-fix">
-/*
-  iOS 26 Home Screen(PWA) fix:
-  The system status-bar tint can be sampled from a REAL fixed element near the
-  top of the page. Pseudo-elements (body::before) are not reliable for this.
-  This 1px white sampler does not take layout space, so the password header
-  stays in exactly the same vertical position while the Dynamic Island area
-  remains white.
-*/
-#iosStatusSampler{
-  position:fixed !important;
-  top:0 !important;
-  left:0 !important;
-  right:0 !important;
-  width:100% !important;
-  height:1px !important;
-  min-height:1px !important;
-  background:#ffffff !important;
-  z-index:2147483647 !important;
-  pointer-events:none !important;
-  opacity:1 !important;
-  display:block !important;
-}
-
-/* Keep the passcode overlay itself white at its top edge, but do not add any
-   extra safe-area/padding. This prevents the old double-height white gap. */
-body.passcode-open,
-html.passcode-status-white,
-html.passcode-status-white body,
-#passcodeScreen{
+  padding-top:env(safe-area-inset-top,0px) !important;
   background:#ffffff !important;
 }
 
-body.passcode-open{
-  padding-top:0 !important;
-}
-
-#passcodeScreen::before{
-  display:none !important;
-  content:none !important;
-  height:0 !important;
-}
-
-#passcodeScreen .pc-app{
-  inset:0 !important;
-  top:0 !important;
-}
-</style>
-
-<style id="passcode-island-compact-final-fix">
-/* FINAL: keep the iOS status/Dynamic-Island area white without adding a tall gap.
-   The 60px offset was wrong here because iOS standalone already reserves the system
-   status area. We expose only a tiny real white strip at the top of the passcode
-   overlay so iOS samples white, while the blue header starts essentially immediately. */
-html.passcode-status-white,
-html.passcode-status-white body,
-body.passcode-open,
-#passcodeScreen {
-  background:#ffffff !important;
-}
-
-/* Disable older competing layers. */
-#iosStatusSampler,
-body.passcode-open::before,
-#passcodeScreen::before {
-  display:none !important;
-  content:none !important;
-  height:0 !important;
-}
-
-/* A REAL element, not a pseudo-element: only 2 CSS px, so no visible tall band. */
-#passcodeStatusGuard {
+#passcodeScreen .pc-app::before{
+  content:"" !important;
   display:block !important;
   position:absolute !important;
   top:0 !important;
   left:0 !important;
   right:0 !important;
-  height:2px !important;
+  height:env(safe-area-inset-top,0px) !important;
   background:#ffffff !important;
-  z-index:2147483600 !important;
+  z-index:4 !important;
   pointer-events:none !important;
 }
 
-/* The passcode app begins 2px below the viewport top. On a 3x iPhone this is only
-   ~6 physical pixels, instead of the previous 180px extra gap. */
-#passcodeScreen .pc-app {
-  position:absolute !important;
-  inset:2px 0 0 0 !important;
-  top:2px !important;
-  right:0 !important;
-  bottom:0 !important;
-  left:0 !important;
-  height:auto !important;
-  background:#ffffff !important;
+#passcodeScreen .pc-header,
+#passcodeScreen .pc-main,
+#passcodeScreen .pc-keypad{
+  position:relative !important;
+  z-index:2 !important;
 }
 </style>
 
 </head>
 <body>
-<div id="iosStatusSampler" aria-hidden="true"></div>
 <div class="demo">DEMO · 비공식 목업</div>
 
 <main class="page">
@@ -702,8 +594,7 @@ body.passcode-open::before,
 
 
 <section id="passcodeScreen" aria-hidden="true">
-  <div id="passcodeStatusGuard" aria-hidden="true"></div>
-  <div class="pc-app">
+<div class="pc-app">
     <header class="pc-header">
       <button class="pc-back" id="pcBack" type="button" aria-label="뒤로가기">◀</button>
       <div class="pc-gov">정부24</div>
