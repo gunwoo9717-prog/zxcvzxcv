@@ -422,8 +422,13 @@ body.passcode-open{
   margin:0 !important;
   padding:0 !important;
   width:100% !important;
-  height:100dvh !important;
-  min-height:100vh !important;
+  /* In iOS standalone, the document begins below the native status bar,
+     while 100dvh still measures the full screen. Subtract the top safe area
+     so the keypad ends exactly at the physical bottom of the screen. */
+  height:calc(100vh - env(safe-area-inset-top, 0px)) !important;
+  height:calc(100dvh - env(safe-area-inset-top, 0px)) !important;
+  min-height:0 !important;
+  max-height:calc(100dvh - env(safe-area-inset-top, 0px)) !important;
   background:#ffffff !important;
   overflow:hidden !important;
   overscroll-behavior:none !important;
@@ -450,8 +455,10 @@ body.passcode-open > .to-top{
   right:auto !important;
   bottom:auto !important;
   width:100% !important;
-  height:100dvh !important;
-  min-height:100vh !important;
+  height:calc(100vh - env(safe-area-inset-top, 0px)) !important;
+  height:calc(100dvh - env(safe-area-inset-top, 0px)) !important;
+  min-height:0 !important;
+  max-height:calc(100dvh - env(safe-area-inset-top, 0px)) !important;
   margin:0 !important;
   padding:0 !important;
   background:#ffffff !important;
